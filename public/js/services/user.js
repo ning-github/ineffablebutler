@@ -5,8 +5,8 @@ muniButlerApp.factory('User', function(){
   user.firstName = '';
   user.loginMethod = '';
   user.newRouteAddresses = {
-    to: 'nothing yet',
-    from: 'nothing yet'
+    from: '450 Serra Mall, Stanford, CA 94305',
+    to: '944 Market St San Francisco, CA 94107'
   };
   // user.routes is an array of objects
   // each object contains two addresses and two options
@@ -21,8 +21,8 @@ muniButlerApp.factory('User', function(){
   user.addRoute = function(to, from, routeTo, routeFrom){
     var route = {
       id: user.routes.length, 
-      to: to,
       from: from,
+      to: to,
       routeTo: routeTo,
       routeFrom: routeFrom
     };
