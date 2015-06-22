@@ -4,7 +4,10 @@ muniButlerApp.factory('User', function(){
   user.username = '';
   user.firstName = '';
   user.loginMethod = '';
-
+  user.newRouteAddresses = {
+    to: 'nothing yet',
+    from: 'nothing yet'
+  };
   // user.routes is an array of objects
   // each object contains two addresses and two options
   // {
