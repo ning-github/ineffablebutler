@@ -15,7 +15,9 @@ muniButlerApp.factory('GoogleMaps', function(User){
   };
 
   googleMaps.getDirections = function(){
-    var directions = new  google.maps.DirectionsService();
+    var directions = new google.maps.DirectionsService();
+    var renderer = new google.maps.DirectionsRenderer();
+    var map = new google.maps.Map(document.getElementById("map"));
 
     var directionsRequest = {
       origin: googleMaps.routeGoing['routeFrom'],
@@ -31,9 +33,17 @@ muniButlerApp.factory('GoogleMaps', function(User){
       avoidTolls: false,
     };
 
-    directions.route(directionsRequest, function(response){
-      console.log(response);
+    directions.route(directionsRequest, function(result, status){
+      
+      if (!status === "OK"){
+        throw status;
+      }
+
+      console.log(result);
+
     });
+
+    renderer.setMap(map);
 
   };
 
