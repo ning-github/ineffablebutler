@@ -117,6 +117,13 @@ app.get('/api/user', function (req, res) {
   }
 });
 
+app.get('/api/logout', function (req, res) {
+  req.logout();
+  res.status(200).send({
+    status: "logged-out"
+  });
+}
+
 
 app.use('/', routes);
 
