@@ -104,7 +104,8 @@ app.get('/api/user', function (req, res) {
     //logged in
     console.log("loggedin");
     res.status(200).send({
-      username: user[0].profile.displayName
+      username: user[0].profile.displayName, 
+      authMethods: authMethods
     });
   } else {
     //not logged in
