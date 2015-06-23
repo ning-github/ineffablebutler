@@ -8,6 +8,7 @@ muniButlerApp.factory('Auth', function($http){
       return resp.data;
     }).catch(function(err){
       console.error("Nope", err.data.authMethods);
+      return 
     });  
   };
 
