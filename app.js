@@ -98,13 +98,13 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 
 //creating session routes
 app.get('/api/user', function (req, res) {
-  console.log("user ",req.user);
-  console.log("session ",req.session);
-  if (user[0]) {
+  console.log("request user ",req.user);
+  console.log("request session ",req.session);
+  if (req.user) {
     //logged in
     console.log("loggedin");
     res.status(200).send({
-      username: user[0].profile.displayName
+      username: req.user[0].profile.displayName
     });
   } else {
     //not logged in
@@ -118,7 +118,9 @@ app.get('/api/user', function (req, res) {
 });
 
 app.get('/api/logout', function (req, res) {
+  console.log("logout req user ", req.user);
   req.logout();
+  req.session.destroy();
   res.status(200).send({
     status: "logged-out"
   });
