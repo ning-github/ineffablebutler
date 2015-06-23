@@ -26,7 +26,7 @@ muniButlerApp.factory('User', function(Auth, Routes){
   // console.log(Auth.username)
 
   // to save user's routes to database
-  Routes.update({id: id:user.id}, user.routes);
+  // Routes.update({id: id:user.id}, user.routes);
 
   user.username = '';
   user.firstName = '';
