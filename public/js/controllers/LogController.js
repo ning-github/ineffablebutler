@@ -1,11 +1,25 @@
 muniButlerApp
   .controller('LogController', function ($scope, Auth) {
     $scope.here = false;
-    $scope.options = {};
-    $scope.seekoption = function(){
-      // temporary options, will ask server for actual list
-      $scope.options.facebook = 'facebook';
-      $scope.options.gmail = 'gmail';
+    $scope.loggedin = false;
+    $scope.options = [];
+
+    $scope.logout = function(){ 
+      Auth.logout()
+        .then(function(resp) {
+          return resp.data;
+        }).catch(function(err){
+          console.log(err);
+          return;
+        });
     };
-    Auth.check();
+
+    Auth.check()
+      .then(function(resp) {
+        $scope.loggedin = true;
+        return resp.data;
+      }).catch(function(err){
+        $scope.options = err.data.authMethods;
+        return;
+      });
   });

@@ -4,15 +4,19 @@ muniButlerApp.factory('Auth', function($http){
       method: 'GET',
       url: '/api/user',
       withCredentials: true,
-    }).then(function(resp) {
-      return resp.data;
-    }).catch(function(err){
-      console.error("Nope", err.data.authMethods);
-      return 
-    });  
+    });
+  };
+
+  var logout = function(){
+    return $http({
+      method: 'GET',
+      url: '/logout',
+      withCredentials: true,
+    });
   };
 
   return {
-    check: check
+    check: check,
+    logout: logout
   };
 });

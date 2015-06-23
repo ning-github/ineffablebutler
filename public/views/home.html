@@ -1,10 +1,13 @@
 <div class="loginbutton page-content" ng-controller="LogController">
-  <div ng-click="here=!here; seekoption();">
-    <p>Log In</p>    
+  <div ng-click="logout()">
+    <p ng-hide="loggedin === false">Log Out</p>
+  </div>
+  <div ng-click="here=!here">
+    <p ng-hide="loggedin === true">Log In</p>    
   </div>
   <div ng-show="here">
     <ul>
-      <li ng-repeat='option in options'>{{ option }}</p>
+      <li ng-repeat='option in options'><a ng-href="{{ option.url }}">{{ option.name }}</a></li>
     </ul>
   </div>
 </div>
