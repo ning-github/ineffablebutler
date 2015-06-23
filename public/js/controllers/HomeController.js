@@ -4,6 +4,14 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
 
   // prevent searching through pressing enter
   $scope.enter = false;
+  // hide when routes are available
+  $scope.newroute = false;
+  $scope.msg = "Add new route!";
+
+  $scope.msgChange = function(){
+    if ($scope.newroute) $scope.msg = "Cancel";
+    else $scope.msg = "Add new route!";
+  }; 
 
   $scope.user = {
     from: "Finding current location..."
@@ -31,17 +39,13 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
 
   $scope.submit = function(validation){
     if (!validation) return;
-
-    User.addRoute($scope.user.to,$scope.user.from);
+    User.trip = { to: $scope.user.to, from: $scope.user.from };
     $location.path('/routes');
     // call factory function with user's home and work addresses
     // to get directions from Google Maps API  
   };
 
   $scope.routes = User.routes;
-  $scope.test = function(){
-    console.log($scope.routes);
-  };
 
   Autocomplete.initialize($scope);
 });
