@@ -4,7 +4,7 @@ muniButlerApp.factory('User', function(){
   user.username = '';
   user.firstName = '';
   user.loginMethod = '';
-  user.newRouteAddresses = {
+  user.trip = {
     from: '178 5th Ave San Francisco, CA 94305',
     to: '944 Market St San Francisco, CA 94107'
   };
@@ -13,23 +13,22 @@ muniButlerApp.factory('User', function(){
   // {
   //   to: '944 Market St',
   //   from: '13333 Candy Lane',
-  //   routeTo: '38',
-  //   routeFrom: '38'
+  //   routeTo: ['38R', 'Geary Blvd & 6th Ave'],
+  //   routeFrom: ['38R', 'Geary Blvd & O'Farrell Ave']
   // }
+
   user.routes = [];
 
-  user.addRoute = function(to, from, routeTo, routeFrom){
+  user.addRoute = function(obj){
     var route = {
       id: user.routes.length, 
-      from: from,
-      to: to,
-      routeTo: routeTo,
-      routeFrom: routeFrom
+      from: obj.from,
+      to: obj.to,
+      routeFrom: obj.routeFrom,
+      routeTo: obj.routeTo
     };
 
     user.routes.push(route);
-    user.newRouteAddresses.to = to;
-    user.newRouteAddresses.from = from;
     console.log(route);
     return route;
   };

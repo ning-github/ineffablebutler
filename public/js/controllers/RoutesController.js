@@ -1,10 +1,41 @@
-muniButlerApp.controller('RoutesController', function($scope, User, GoogleMaps, FiveEleven){
+muniButlerApp.controller('RoutesController', function($scope, $location, User, GoogleMaps, FiveEleven){
 
   $scope.user = {};
   $scope.user.username = User.username;
   $scope.user.firstName = User.firstName;
-  $scope.user.newRouteAddresses = User.newRouteAddresses;
+  $scope.user.trip = User.trip;
+  $scope.user.going = true;
+  $scope.user.returning = false;
   $scope.user.routeOptions;
+  $scope.user.route = {
+    from: User.trip.from,
+    to: User.trip.to,
+    routeFrom: '',
+    routeTo: ''
+  };
+
+  $scope.user.getRouteBack = function(){
+    $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
+  };
+
+  $scope.user.selectRoute = function(busNumber, stopName){
+    console.log(busNumber, stopName);
+
+    if ($scope.user.going && !$scope.user.returning){
+      $scope.user.route.routeTo = [busNumber, stopName];
+      $scope.user.going = false;
+      $scope.user.returning = true;
+      $scope.user.getRouteBack();
+    } else if (!$scope.user.going && $scope.user.returning){
+      $scope.user.route.routeFrom = [busNumber, stopName];
+      User.addRoute($scope.user.route);
+      $scope.user.returning = false;
+      $scope.user.going = true;
+      $location.path('/');
+      return;
+    }
+    
+  };
 
   $scope.user.handleResults = function(results){
 
@@ -45,21 +76,21 @@ muniButlerApp.controller('RoutesController', function($scope, User, GoogleMaps, 
     return options;
   };
 
-  $scope.user.getRouteOptions = function(){
+  $scope.user.getRouteOptions = function(from, to){
     var directions =  GoogleMaps.createDirectionsService();
-    var directionsRequest = GoogleMaps.getDirectionsRequestObject(User.newRouteAddresses['from'], User.newRouteAddresses['to']);
+    var directionsRequest = GoogleMaps.getDirectionsRequestObject(from, to);
 
     directions.route(directionsRequest, function(results, status){
       if (!status === "OK"){
         throw status;
       }
       $scope.user.routeOptions =  $scope.user.handleResults(results);
-      console.log($scope.user.routeOptions)
+      $scope.$apply();
+      console.log($scope.user.routeOptions);
+      
     });
   }; // end of getRouteOptions
 
-  $scope.user.getRouteOptions();
-
-  console.log($scope.user.routeOptions);
+  $scope.user.getRouteOptions(User.trip['from'], User.trip['to']);
 
 }); //end of routes controller
