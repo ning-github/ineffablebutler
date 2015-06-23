@@ -3,6 +3,7 @@
     <div>
       <map zoom="18" center="[37.783724,-122.408978]" disable-default-u-i="true" disable-double-click-zoom="true" draggable="false" draggable-cursor="help" dragging-cursor="move" keyboard-shortcuts="false" max-zoom="12" min-zoom="8" tilt="45" map-type-id="TERRAIN"></map>
     </div>
+    <div id="map"></div>
     <md-card>
       <md-card-content>
         <p>{{ user.newRouteAddresses['to'] }}</p>
@@ -13,10 +14,23 @@
         <p>{{ user.newRouteAddresses['from'] }}</p>
       </md-card-content>
     </md-card>
+    <md-card>
+      <md-card-content>
+        <p>{{ user.routeOptions }}</p>
+      </md-card-content>
+    </md-card>
     <!-- List of route options for user to choose from -->
     <md-list>
-      <md-list-item class="sm-3-line">
-        <div class="md-list-item-text">
+      {{ user.routeOptions }}
+      <md-list-item class="sm-3-line" ng-repeat="route in user.routeOptions.routes">
+        <div class="md-list-item-text" id="busNumber" ng-repeat="busNumber in route.lines">
+          {{ busNumber }}
+        </div>
+        <div class="md-list-item-text" id="stopName" ng-repeat="stopName in route.lines">
+          {{ stopName }}
+        </div>
+        <div class="md-list-item-text" id="duration">
+          {{ route.duration }}
         </div>
       </md-list-item>
     </md-list>
