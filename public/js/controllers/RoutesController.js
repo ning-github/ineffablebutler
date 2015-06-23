@@ -1,4 +1,4 @@
-muniButlerApp.controller('RoutesController', function($scope, User, GoogleMaps){
+muniButlerApp.controller('RoutesController', function($scope, User, GoogleMaps, FiveEleven){
 
   $scope.user = {};
   $scope.user.username = User.username;
