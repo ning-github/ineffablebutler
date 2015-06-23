@@ -1,7 +1,29 @@
-muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete) {
+muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete, FiveEleven) {
 
   // user object to store info related to this user
-  $scope.user = {};
+  $scope.user = {
+    from: "Finding current location..."
+  };
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
+  function success(position) {
+    var pos;
+    var geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    geocoder.geocode({'location':latlng}, function(results,status){
+      if (status == google.maps.GeocoderStatus.OK){
+        pos = results[0].formatted_address;
+        $scope.user.from = pos;
+        $scope.$apply();
+      }
+    });
+  }
+  function error() {
+    console.log('Geolocation failed');
+  }
 
   $scope.submit = function(){
 
@@ -17,5 +39,4 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   };
 
   Autocomplete.initialize($scope);
-
 });
