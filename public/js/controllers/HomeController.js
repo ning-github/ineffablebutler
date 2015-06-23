@@ -4,6 +4,7 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   $scope.user = {};
 
   $scope.submit = function(){
+
     User.addRoute($scope.user.to,$scope.user.from);
     $location.path('/routes');
     // call factory function with user's home and work addresses

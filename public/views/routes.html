@@ -14,12 +14,26 @@
         <p>{{ user.newRouteAddresses['from'] }}</p>
       </md-card-content>
     </md-card>
+    <md-card>
+      <md-card-content>
+        <p>{{ user.routeOptions }}</p>
+      </md-card-content>
+    </md-card>
     <!-- List of route options for user to choose from -->
     <md-list>
-      <md-list-item class="sm-3-line">
-        <div class="md-list-item-text">
+      {{ user.routeOptions }}
+<!--       <md-list-item class="sm-3-line" ng-repeat="route in user.routeOptions.routes">
+        <div class="md-list-item-text" id="busNumber" ng-repeat="busNumber in route.lines">
+          {{ busNumber }}
         </div>
-      </md-list-item>
+        <div class="md-list-item-text" id="stopName" ng-repeat="stopName in route.lines">
+          {{ stopName }}
+        </div>
+        <div class="md-list-item-text" id="duration">
+          {{ route.duration }}
+        </div>
+      </md-list-item> -->
     </md-list>
   </md-content>
 </div>
+
