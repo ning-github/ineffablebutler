@@ -14,9 +14,6 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   $scope.test = function(){
     console.log($scope.routes);
   };
-  $scope.geolocate = function(){
-    console.log('fuck');
-  };
 
   Autocomplete.initialize($scope);
 
