@@ -1,10 +1,10 @@
 muniButlerApp.controller('RoutesController', function($scope, $location, User, GoogleMaps, FiveEleven){
 
   $scope.user = {};
-  $scope.user.username = User.username;
-  $scope.user.firstName = User.firstName;
   $scope.user.trip = User.trip;
+  $scope.user.routeHeading = User.routeHeading;
   $scope.user.going = true;
+  $scope.user.routeHeading = "Departure Route";
   $scope.user.returning = false;
   $scope.user.routeOptions;
   $scope.user.route = {
@@ -21,8 +21,10 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
     console.log(busNumber, stopName);
 
     if ($scope.user.going && !$scope.user.returning){
+      $scope.user.routeHeading = "Departure Route";
       $scope.user.route.route = [busNumber, stopName];
       User.addRoute($scope.user.route);
+      $scope.user.routeHeading = "Return Route";
       $scope.user.going = false;
       $scope.user.returning = true;
       $scope.user.getRouteBack();
@@ -32,7 +34,7 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
       $scope.user.returning = false;
       $scope.user.going = true;
       $location.path('/');
-      return;
+      // return;
     }
     
   };

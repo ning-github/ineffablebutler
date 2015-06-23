@@ -17,7 +17,7 @@
         <div class="destination-address">{{ user.trip['to'] }}</div>
       </md-card-content>
     </md-card>
-    <h3>Routes</h3>
+    <h3>{{ user.routeHeading }}</h3>
     <md-card class="route-option" ng-repeat="route in user.routeOptions.routes" ng-click="user.selectRoute(route.lines[0][0], route.lines[0][1])">
       <md-card-content>
         <div class="duration">{{ route.duration }}</div>
