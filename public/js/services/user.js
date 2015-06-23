@@ -5,7 +5,7 @@ muniButlerApp.factory('User', function(){
   user.firstName = '';
   user.loginMethod = '';
   user.newRouteAddresses = {
-    from: '450 Serra Mall, Stanford, CA 94305',
+    from: '178 5th Ave San Francisco, CA 94305',
     to: '944 Market St San Francisco, CA 94107'
   };
   // user.routes is an array of objects
@@ -28,6 +28,8 @@ muniButlerApp.factory('User', function(){
     };
 
     user.routes.push(route);
+    user.newRouteAddresses.to = to;
+    user.newRouteAddresses.from = from;
     console.log(route);
     return route;
   };
