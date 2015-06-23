@@ -122,7 +122,7 @@ app.get('/api/logout', function (req, res) {
   res.status(200).send({
     status: "logged-out"
   });
-}
+});
 
 
 app.use('/', routes);
