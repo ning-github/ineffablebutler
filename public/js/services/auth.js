@@ -10,7 +10,7 @@ muniButlerApp.factory('Auth', function($http){
   var logout = function(){
     return $http({
       method: 'GET',
-      url: '/logout',
+      url: '/api/logout',
       withCredentials: true,
     });
   };
