@@ -33,13 +33,12 @@
 </div>
 <div ng-show='routes.length > 0' class="page-content">
   <p ng-click="newroute = !newroute; msgChange();">{{msg}}</p>
-  <h2>Saved Routes</h2>
-  <ul>
-    <li class='route' ng-repeat='route in routes | filter:search | orderBy:"-id"'>
-      <p class='from'> {{ route.from }} </p>
-      <p class='to'> {{ route.to}} </p>
-      <p class='routeFrom'> {{ route.routeFrom }}  </p>
-      <p class='routeTo'> {{ route.routeTo }}  </p>
-    </li>
-  </ul>
+  <h3>My Routes</h3>
+  <md-card class="my-routes" ng-repeat="route in routes | filter:search | orderBy:'-id'">
+    <md-card-content>
+      <div class="busNumber">{{ route.route[0] }}</div> 
+      <div class="stopName">{{ route.route[1] }}</div>
+    </md-card-content>
+  </md-card>
+  {{ route.route }}
 </div>
