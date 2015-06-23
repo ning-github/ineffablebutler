@@ -29,6 +29,8 @@ muniButlerApp.factory('User', function(){
     };
 
     user.routes.push(route);
+    user.newRouteAddresses.to = to;
+    user.newRouteAddresses.from = from;
     console.log(route);
     return route;
   };

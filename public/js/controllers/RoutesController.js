@@ -85,6 +85,7 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
         throw status;
       }
       $scope.user.routeOptions =  $scope.user.handleResults(results);
+
       $scope.$apply();
       console.log($scope.user.routeOptions);
       
