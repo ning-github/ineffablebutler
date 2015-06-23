@@ -10,8 +10,7 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
   $scope.user.route = {
     from: User.trip.from,
     to: User.trip.to,
-    routeFrom: '',
-    routeTo: ''
+    route: ''
   };
 
   $scope.user.getRouteBack = function(){
@@ -22,12 +21,13 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
     console.log(busNumber, stopName);
 
     if ($scope.user.going && !$scope.user.returning){
-      $scope.user.route.routeTo = [busNumber, stopName];
+      $scope.user.route.route = [busNumber, stopName];
+      User.addRoute($scope.user.route);
       $scope.user.going = false;
       $scope.user.returning = true;
       $scope.user.getRouteBack();
     } else if (!$scope.user.going && $scope.user.returning){
-      $scope.user.route.routeFrom = [busNumber, stopName];
+      $scope.user.route.route = [busNumber, stopName];
       User.addRoute($scope.user.route);
       $scope.user.returning = false;
       $scope.user.going = true;

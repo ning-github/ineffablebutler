@@ -24,8 +24,7 @@ muniButlerApp.factory('User', function(){
       id: user.routes.length, 
       from: obj.from,
       to: obj.to,
-      routeFrom: obj.routeFrom,
-      routeTo: obj.routeTo
+      route: obj.route
     };
 
     user.routes.push(route);
