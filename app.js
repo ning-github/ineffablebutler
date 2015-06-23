@@ -104,15 +104,15 @@ app.get('/api/user', function (req, res) {
     //logged in
     console.log("loggedin");
     res.status(200).send({
-      username: user[0].profile.displayName, 
-      authMethods: authMethods
+      username: user[0].profile.displayName
     });
   } else {
     //not logged in
     //401 not authenticated
     console.log("not loggedin");
     res.status(401).send({
-      error: "not authenticated"
+      error: "not authenticated", 
+      authMethods: authMethods
     });
   }
 });
