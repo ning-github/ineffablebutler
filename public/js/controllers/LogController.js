@@ -7,19 +7,26 @@ muniButlerApp
     $scope.logout = function(){ 
       Auth.logout()
         .then(function(resp) {
-          return resp.data;
+          console.log('logged out');
+          $scope.loggedin = false;
+          return $scope.login();
         }).catch(function(err){
           console.log(err);
           return;
         });
     };
 
-    Auth.check()
-      .then(function(resp) {
-        $scope.loggedin = true;
-        return resp.data;
-      }).catch(function(err){
-        $scope.options = err.data.authMethods;
-        return;
-      });
+    $scope.login = function() {
+      Auth.check()
+        .then(function(resp) {
+          console.log('logged in');
+          $scope.loggedin = true;
+          return resp.data;
+        }).catch(function(err){
+          $scope.options = err.data.authMethods;
+          return;
+        });
+    };
+
+    $scope.login();
   });
