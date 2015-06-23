@@ -1,6 +1,11 @@
 muniButlerApp
   .controller('LogController', function ($scope, Auth) {
     $scope.here = false;
-    $scope.links = [];
-    // Auth.check();
+    $scope.options = {};
+    $scope.seekoption = function(){
+      // temporary options, will ask server for actual list
+      $scope.options.facebook = 'facebook';
+      $scope.options.gmail = 'gmail';
+    };
+    Auth.check();
   });
