@@ -10,7 +10,7 @@ muniButlerApp.factory('FiveEleven', function($http, User){
 
     stopCodes: 'http://services.my511.org/Transit2.0/GetStopsForRoute.aspx?token='+ fiveEleven.APItoken +'&routeIDF=SF-MUNI~'+ fiveEleven.routeCode + '~' + fiveEleven.direction,
 
-    nextDepartures: 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx?token=' + fiveEleven.APItoken + '&stopCode='+fiveEleven.stopCode
+    nextDepartures: 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx?token=' + fiveEleven.APItoken + '&stopCode=' + fiveEleven.stopCode
   };
 
 

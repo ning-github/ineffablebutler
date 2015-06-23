@@ -1,6 +1,10 @@
 muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete, FiveEleven) {
 
   // user object to store info related to this user
+
+  // prevent searching through pressing enter
+  $scope.enter = false;
+
   $scope.user = {
     from: "Finding current location..."
   };
@@ -25,8 +29,8 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
     console.log('Geolocation failed');
   }
 
-  $scope.submit = function(){
-
+  $scope.submit = function(validation){
+    if (!validation) return;
     User.addRoute($scope.user.to,$scope.user.from);
     $location.path('/routes');
     // call factory function with user's home and work addresses
