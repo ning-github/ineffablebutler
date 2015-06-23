@@ -1,5 +1,8 @@
 var muniButlerApp = angular.module('muniButler', ['ngMap', 'ngRoute', 'ngMaterial'])
 .config(function($routeProvider, $httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+
+
   $routeProvider
     .when('/', {
       templateUrl: 'views/home.html',
