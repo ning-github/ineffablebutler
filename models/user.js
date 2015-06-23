@@ -1,27 +1,19 @@
 // User Schema
 //
 // 
-
 var mongoose = require('mongoose');
+var findOrCreate = require('mongoose-findorcreate');
+var Schema = mongoose.Schema;
 
-var schema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
-  last_name: {
-    type: String,
-    required: true
-  },
-  first_name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  token: {
-    type: String,
-    required: false
-  }
+var UserSchema = new Schema({
+  id: String,
+  email: String,
 });
 
-module.exports = mongoose.model('User', schema);
+UserSchema.plugin(findOrCreate);
+
+
+
+var User = mongoose.model('User', UserSchema);
+
+module.exports = mongoose.model('User', Schema);

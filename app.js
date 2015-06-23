@@ -9,10 +9,31 @@ var passport = require('passport');
 var routes = require('./routes/index');
 var db = require('./config/db');
 var UserDB = require('./models/user');
-var UserHandler = require('./handlers/UserHandler');
-var AuthHandler = require('./handlers/AuthHandler');
+var googleConfig = require('./config/googleConfig')
 
 var app = express();
+
+passport.serializeUser(function(user, done) {
+done(null, user);
+});
+passport.deserializeUser(function(obj, done) {
+done(null, obj);
+});
+
+passport.use(new GoogleStrategy(googleConfig,
+  function(accessToken, refreshToken, profile, done) {
+    console.log('UserDB', UserDB.findOrCreate);
+    UserDB.findOrCreate({ id: profile.id }, function (err, user) {
+    //   return done(err, user);
+    // process.nextTick(function (){
+
+      // Changing this to return the accessToken instead of the profile information                                
+        console.log(profile.displayName);                                                                        
+
+      return done(null, [{token:accessToken,rToken:refreshToken,'profile':profile}]);
+    });
+  }
+));
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -20,86 +41,36 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(express.methodOverride());
 app.use(cookieParser());
 app.use(passport.initialize());
-// app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-passport.use(new GoogleStrategy({
-    clientID: '189160676278-ci6rhq98n64ig2ekbb4ojst990u6tg6s.apps.googleusercontent.com',
-    clientSecret: 'SkWnFwdTOG69OgDZi092hHqC',
-    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    UserDB.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
-  }
-));
-
-// passport.use(new google_strategy({
-//     clientID: '189160676278-ci6rhq98n64ig2ekbb4ojst990u6tg6s.apps.googleusercontent.com',
-//     clientSecret: 'SkWnFwdTOG69OgDZi092hHqC',
-//     callbackURL: 'http://127.0.0.1:3000/auth/google/callback', 
-//     scopes: 'https://www.googleapis.com/auth/userinfo.email'
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     console.log("boum", accessToken, refreshToken, profile, done);
-
-//     UserDB.findOne({email: profile._json.email},function(err,usr) {
-//       if (err){
-//         console.log(err);
-//       }
-//       if (usr){
-//         console.log("user",usr);
-//         usr.token = accessToken;    
-//         usr.save(function(err,usr,num) {
-//             if(err) {
-//                 console.log('error saving token');
-//             }
-//         });
-//         process.nextTick(function() {
-//             return done(null,profile);
-//         });
-//       } else {
-//         console.log("no user");
-//       }
-//     });
-//   }
-// ));
-
-var handlers = {
-  user: new UserHandler(),
-  auth: new AuthHandler()
-};
-
-
-
-// app.get('/auth/google',handlers.auth.googleSignIn);
-// app.get('/auth/google/callback',handlers.auth.googleSignInCallback);
-// // app.get('/auth/local',handlers.auth.localSignIn);
-// // app.get('/auth/local/callback',handlers.auth.localSignInCallback);
-
-app.get('/auth/google', passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
+app.get('/auth/google', passport.authenticate('google', { scope: 'profile'
+     }));
 
 app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/hhghg' }),
   function(req, res) {
+    console.log("made it to callback");
     // Successful authentication, redirect home.
     res.redirect('/');
   });
 
-app.get('/user',handlers.user.getUsers);
-app.get('/user/:id',handlers.user.getUser);
-app.put('/user/:id',handlers.user.updateUser);
-app.get('/user/:first/:last/:email',handlers.user.createUser);
-console.log("Successfully set up routes");
-
+//creating session routes
+app.get('/api/user', function(req,res){
+  if(req.user){
+    //logged in
+    res.status(200).send({username: req.user.username});
+  } else {
+    //not logged in
+    //401 not authenticated
+    res.status(401).send({error : "not authenticated"});
+  }
+});
 
 
 app.use('/', routes);
