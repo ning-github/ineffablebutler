@@ -6,6 +6,12 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   $scope.enter = false;
   // hide when routes are available
   $scope.newroute = false;
+  $scope.msg = "Add new route!";
+
+  $scope.msgChange = function(){
+    if ($scope.newroute) $scope.msg = "Cancel";
+    else $scope.msg = "Add new route!";
+  }; 
 
   $scope.user = {
     from: "Finding current location..."
