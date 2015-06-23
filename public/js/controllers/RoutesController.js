@@ -34,7 +34,6 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
       $scope.user.returning = false;
       $scope.user.going = true;
       $location.path('/');
-      // return;
     }
     
   };
