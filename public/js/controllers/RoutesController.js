@@ -60,4 +60,6 @@ muniButlerApp.controller('RoutesController', function($scope, User, GoogleMaps){
 
   $scope.user.getRouteOptions();
 
+  console.log($scope.user.routeOptions);
+
 }); //end of routes controller
