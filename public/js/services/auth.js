@@ -3,6 +3,7 @@ muniButlerApp.factory('Auth', function($http){
     return $http({
       method: 'GET',
       url: '/api/user',
+      withCredentials: true,
     }).then(function(resp) {
       return resp.data;
     }).catch(function(err){
