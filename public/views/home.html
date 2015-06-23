@@ -1,31 +1,29 @@
-<div class="loginbutton" ng-controller="LogController">
-  <div ng-click="here=!here">
+<div class="loginbutton page-content" ng-controller="LogController">
+  <div ng-click="here=!here; seekoption();">
     <p>Log In</p>    
   </div>
   <div ng-show="here">
-    <p>Facebook</p>
-    <p>Twitter</p>
+    <ul>
+      <li ng-repeat='option in options'>{{ option }}</p>
+    </ul>
   </div>
 </div>
 <div class="page-content" ng-controller="HomeController">
   <h1>MuniButler</h1>
   <h4>Fast, reliable MUNI times for your commute to work and home.</h4>
-  <form ng-submit="submit()">
+  <form name="addressform" ng-submit="addressform.$valid && submit()" novalidate>
     <md-content layout-padding layout-sm="column">
       <!-- input for from address -->
-      <md-input-container>
+      <md-input-container md-no-float>
         <label>From</label>
-        <input type="text" ng-model="user.from">
+        <input class="autocomplete" type="text" ng-model="user.from" placeholder="" required>
       </md-input-container>
       <!-- input for to address -->
-      <md-input-container>
+      <md-input-container md-no-float>
         <label>To</label>
-        <input type="text" ng-model="user.to">
+        <input class="autocomplete" type="text" ng-model="user.to" placeholder="" required>
       </md-input-container>
-      <!-- md-input-container> -->
-        <md-button class="md-raised md-primary">Submit</md-button>
-          <!--  -->
-      <!-- </md-input-container> -->
+      <md-button class="md-raised md-primary">Submit</md-button>
     </md-content>
   </form>
   <map zoom="18" center="[37.783724,-122.408978]" disable-default-u-i="true" disable-double-click-zoom="true" draggable="false" draggable-cursor="help" dragging-cursor="move" keyboard-shortcuts="false" max-zoom="12" min-zoom="8" tilt="45" map-type-id="TERRAIN"></map>
@@ -39,5 +37,6 @@
       <p class='routeTo'> {{ route.routeTo }}  </p>
     </li>
   </ul>
-
 </div>
+
+ 

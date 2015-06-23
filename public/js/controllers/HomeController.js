@@ -1,12 +1,11 @@
-muniButlerApp.controller('HomeController', function($scope, User, $location) {
+muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete) {
 
   // user object to store info related to this user
-  // E.g., homeAddress, workAddress
   $scope.user = {};
 
   $scope.submit = function(){
     User.addRoute($scope.user.to,$scope.user.from);
-    // $location.path('/routes');
+    $location.path('/routes');
     // call factory function with user's home and work addresses
     // to get directions from Google Maps API  
   };
@@ -15,4 +14,10 @@ muniButlerApp.controller('HomeController', function($scope, User, $location) {
   $scope.test = function(){
     console.log($scope.routes);
   };
+  $scope.geolocate = function(){
+    console.log('fuck');
+  };
+
+  Autocomplete.initialize($scope);
+
 });
