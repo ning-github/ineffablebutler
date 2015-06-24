@@ -51,14 +51,14 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-var saveUser = function(accessToken, refreshToken, profile, done){
+var saveUser = function (accessToken, refreshToken, profile, done) {
   UserDB.findOrCreate({
     loginId: profile.id,
     loginMethod: profile.provider,
     displayName: profile.displayName
-    // , 
-    // accessToken: accessToken, 
-    // refreshToken: refreshToken
+      // , 
+      // accessToken: accessToken, 
+      // refreshToken: refreshToken
   }, function (err, user, created) {
     console.log("created:", created);
     return done(null, profile);
@@ -67,9 +67,8 @@ var saveUser = function(accessToken, refreshToken, profile, done){
 
 passport.use(new GoogleStrategy(googleConfig,
   function (accessToken, refreshToken, profile, done) {
-    saveUser(accessToken, refreshToken, profile, done); 
-  })
-);
+    saveUser(accessToken, refreshToken, profile, done);
+  }));
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -97,15 +96,20 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 app.get('/api/user', function (req, res) {
   console.log("request user ", req.user);
 
-  // db.users.find({displayName: req.user.displayName}, )
   if (req.user) {
+    UserDB.find({
+        displayName: req.user.displayName
+      })
+      .exec(function (err, user) {
+        res.status(200).send({
+          id: user._id,
+          displayName: user.displayName,
+          routes: []
+        });
+      });
     //logged in
     console.log("loggedin");
-    res.status(200).send({
-      id: "",
-      displayName: req.user.displayName,
-      routes: []
-    });
+
   } else {
     //not logged in
     //401 not authenticated
