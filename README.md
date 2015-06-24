@@ -1,6 +1,8 @@
 # MuniButler
 
-> Fast, reliable MUNI times for your commute to work and home.
+> 
+
+Fast, reliable MUNI times for your commute to work and home.
 
 ## Team
 
