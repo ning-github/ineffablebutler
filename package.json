@@ -1,7 +1,7 @@
 {
   "name": "minimuni",
   "version": "0.0.0",
-  "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "nodemon ./bin/www"
   },
@@ -22,5 +22,18 @@
     "prettyjson": "^1.1.2",
     "serve-favicon": "~2.2.1",
     "xml2js": "^0.4.9"
-  }
+  },
+  "engines": {
+    "node": "0.12.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ineffablebutler/ineffablebutler"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }
