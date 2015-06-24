@@ -41,12 +41,24 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
   $scope.user.getRouteOptions = function(from, to){
     var directions =  GoogleMaps.createDirectionsService();
     var directionsRequest = GoogleMaps.getDirectionsRequestObject(from, to);
+    var directionsDisplay = GoogleMaps.createDirectionsRendererObject();
+
+    var mapOptions = {
+      zoom: 18,
+      center: new google.maps.LatLng(37.783724,-122.408978)
+    };
+
+    var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
+
+    directionsDisplay.setMap(map);
 
     directions.route(directionsRequest, function(results, status){
       if (!status === "OK"){
         throw status;
       }
       // $scope.user.routeOptions =  $scope.user.handleResults(results);
+
+      directionsDisplay.setDirections(results);
 
       var options = {};
       options.numRoutes = results.routes.length;

@@ -1,4 +1,4 @@
-muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete, FiveEleven) {
+muniButlerApp.controller('HomeController', function($scope, User, $location, Autocomplete, GoogleMaps, FiveEleven) {
 
   // user object to store info related to this user
 
@@ -7,6 +7,19 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   // hide when routes are available
   $scope.newroute = false;
   $scope.msg = "Add new route!";
+
+  $scope.setMap = function(location){
+    var directionsDisplay = GoogleMaps.createDirectionsRendererObject();
+
+    var mapOptions = {
+      zoom: 18,
+      center: location
+    };
+
+    var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
+
+    directionsDisplay.setMap(map);
+  };
 
   $scope.msgChange = function(){
     if ($scope.newroute) $scope.msg = "Cancel";
@@ -32,9 +45,12 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
         $scope.$apply();
       }
     });
+
+    $scope.setMap(latlng);
   }
   function error() {
     console.log('Geolocation failed');
+    $scope.setMap(new google.maps.LatLng(37.7837235,-122.4089778));
   }
 
   $scope.submit = function(validation){
