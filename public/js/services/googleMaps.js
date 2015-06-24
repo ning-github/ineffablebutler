@@ -26,5 +26,10 @@ muniButlerApp.factory('GoogleMaps', function(User){
     return obj;
   };
 
+  googleMaps.createDirectionsRendererObject = function(){
+    var obj = new google.maps.DirectionsRenderer();
+    return obj;
+  };
+
   return googleMaps;
 });
