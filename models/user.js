@@ -5,12 +5,10 @@ var findOrCreate = require('mongoose-findorcreate');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  id: String,
-  username: String,
-  password: String,
-  email: String,
-  gender: String,
-  address: String
+  loginId: String,
+  loginMethod: String,
+  displayName: String,
+  routes: Array
 });
 
 UserSchema.plugin(findOrCreate);
