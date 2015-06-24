@@ -1,4 +1,4 @@
-muniButlerApp.factory('User', function(Auth, Routes){
+muniButlerApp.factory('User', function(Auth){
   var user = {};
 
   // if(userlogggin ?) {
