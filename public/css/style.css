@@ -10,13 +10,16 @@ body {
   position: absolute;
   top: 20px;
   right: 20px;
-}
-
-a#google-login{
   text-decoration: none;
   color: #FFFFFF;
   font-size: 12px;
 }
+
+/*a#google-login{
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 12px;
+}*/
 
 .page-content h1{
   clear: both;
