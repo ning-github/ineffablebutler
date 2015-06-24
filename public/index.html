@@ -25,6 +25,20 @@
     <script src="js/controllers/RoutesController.js"></script>
   </head>
   <body ng-app="muniButler">
+    <div class="login-button page-content" ng-controller="LogController">
+      <div ng-click="logout()">
+        <p ng-hide="loggedin === false">Log Out</p>
+      </div>
+      <div ng-click="here=!here">
+        <md-button id="login-button" class="md-raised md-primary" ng-hide="loggedin === true"><a id="google-login" ng-href="{{ option.url }}">Sign In With Google</a></md-button>    
+      </div>
+      <!-- <div ng-show="here">
+        <md-button class="md-fab md-primary" ng-repeat='option in options'>
+          <a ng-href="{{ option.url }}">{{ icons.google }} <md-icon></md-icon></a>
+       </md-button>
+        <md-button class="md-raised" ng-repeat='option in options'><a ng-href="{{ option.url }}">{{ icons.google }}</a></md-button>
+      </div> -->
+    </div>
     <div ng-view>
     </div>
   </body>
