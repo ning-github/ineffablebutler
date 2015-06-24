@@ -3,11 +3,31 @@ var express = require('express');
 var app = express();
 var parseString = require('xml2js').parseString;
 var fs = require('fs');
-var db = require('./config/db');
+var db = require('../config/db');
 
 var routeCodes = require('../models/routeCodes');
 
+// var RouteList = [];
+// var options = {
+//     hostname: 'services.my511.org',
+//     path: '/Transit2.0/GetRoutesForAgencies.aspx?token=62e8fbd1-9e0e-4a3c-a906-d5d860daeb83&agencyNames=SF-MUNI'
+//   };
 
+// var routeMaster = http.get(options,function(response){
+//   var completeResponse = '';
+//   response.on('data', function(chunk){
+//     completeResponse += chunk;
+//   });
+//   response.on('end', function(){
+//     parseString(completeResponse, function(err, result){
+//       RouteList.push(completeResponse);
+//       // console.log(JSON.stringify(completeResponse));
+//     });
+//   });
+// });
+
+
+console.log("HELLLLLOOOOOOO");
 var RouteList = {
   "RTT": {
     "AgencyList": {
@@ -1005,11 +1025,11 @@ var RouteList = {
 };
 
 var obj = {};
+
+//using RouteList (JSON converted)
 for (var i = 0; i < RouteList.RTT.AgencyList.Agency.RouteList.Route.length; i++) {
   var shortened = RouteList.RTT.AgencyList.Agency.RouteList.Route[i]._Code
   obj[shortened] = {
-    Outbound: {},
-    Inbound: {}
   };
 }
 
@@ -1035,39 +1055,34 @@ for (var i = 0; i < urls.length; i++) {
     response.on('end', function () {
       parseString(completeResponse, function (err, result) {
         jsonContent.push(result);
-        // saveJsonToDb(result);
+        saveJsonToDb(result);
       });
     }).on('error', function (e) {
       console.log('problem with request');
     });
   });
-
 }
 
 
 var saveJsonToDb = function (json) {
   if (json.RTT) {
-
     var path = json.RTT.AgencyList[0].Agency[0].RouteList[0].Route[0];
     var pathStop = path.RouteDirectionList[0].RouteDirection[0].StopList[0].Stop;
     var stops = [];
     for (var i = 0; i < pathStop.length; i++) {
-      console.log(pathStop[i].$)
+      // console.log(pathStop[i].$)
       stops.push(pathStop[i].$);
     }
-
     var routeA = new routeCodes({
       routeName: path.$.Code,
       routeDir: path.RouteDirectionList[0].RouteDirection[0].$.Code,
       routeStop: stops
     });
-    console.log("json...................................", routeA);
+    // console.log("creating new ROUTEA", JSON.stringify(routeA, null, 2));
     routeA.save(function (err, route) {
       if (err) console.log('err', err);
-      console.log("ROUTE...........",route);
+      console.log("boooooooooooooooooooooooooooooooooooooooooooom",route);
     });
 
-
   }
-
 }
