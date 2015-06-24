@@ -9,13 +9,14 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var routes = require('./routes/index');
+var db = require('./config/db');
 var UserDB = require('./models/user');
 var googleConfig = require('./config/googleConfig');
 
 var app = express();
 
 var authMethods = [{
-  name: 'Google', 
+  name: 'Google',
   url: '/auth/google'
 }];
 
@@ -28,16 +29,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
 app.use(session({
   secret: 'mySecretKey',
   resave: false,
   saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 passport.serializeUser(function (user, done) {
   console.log("serializeUser");
@@ -51,22 +53,13 @@ passport.deserializeUser(function (obj, done) {
 
 passport.use(new GoogleStrategy(googleConfig,
   function (accessToken, refreshToken, profile, done) {
-    // console.log('UserDB', UserDB.findOrCreate);
+    console.log('UserDB', UserDB.findOrCreate);
     UserDB.findOrCreate({
       id: profile.id
-    }, function (err, user) {
-      //   return done(err, user);
-      // process.nextTick(function (){
-
-      // Changing this to return the accessToken instead of the profile information                                
-      console.log(profile.displayName);
-
-      return done(null, [{
-        token: accessToken,
-        rToken: refreshToken,
-        'profile': profile
-      }]);
+    }, function (err, user) {                        
+      return done(null, profile);
     });
+    
   }
 ));
 
@@ -87,18 +80,16 @@ app.get('/auth/google/callback', passport.authenticate('google', {
     failureRedirect: '/hhghg'
   }),
   function (req, res) {
-
     console.log("made it to callback");
     console.log("req user", req.user);
     // Successful authentication, redirect home.
-    user = req.user;
     res.redirect('/');
   });
 
 //creating session routes
 app.get('/api/user', function (req, res) {
-  console.log("request user ",req.user);
-  console.log("request session ",req.session);
+  console.log("request user ", req.user);
+  console.log("request session ", req.session);
   if (req.user) {
     //logged in
     console.log("loggedin");
@@ -110,7 +101,7 @@ app.get('/api/user', function (req, res) {
     //401 not authenticated
     console.log("not loggedin");
     res.status(401).send({
-      error: "not authenticated", 
+      error: "not authenticated",
       authMethods: authMethods
     });
   }
