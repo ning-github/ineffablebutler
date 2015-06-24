@@ -18,36 +18,45 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+
 MuniButler
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+
 Muni commuters get fast, reliable times for their daily commutes to and from work.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+
 Never miss the bus again! With MuniButler, you can save a list of your frequently used Muni routes and quickly find out when the next bus is arriving.  
 
 ## Problem ##
   > Describe the problem your product solves.
+
 Don't waste time or aggravate yourself by navigating through complex applications to find out when your bus is arriving. With MuniButler, you'll have the most important information at the tip of your fingers.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+
 For daily commuters who often take the same bus routes to work and home, we have a simple flow for find and saving routes. Your saved routes list becomes your home dashboard, which you see each time you launch the MuniButler application.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+
 MuniButler reduces the morning commute stress. We'll let you know when your bus is arriving and when you should leave.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+
 Go to https://secret-sea-8470.herokuapp.com/#/ and sign in with your Gmail address. Enter your home and work address and select your routes to and from work. Your dashboard will list your bus routes and let you know when your next bus is arriving.
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+
 I love MuniButler! Other apps I used made it harder to save my routes and figure out when my bus was leaving. With MuniButler, I launch the app and my bus routes and arrival times are right there! It's so easy to add multiple routes too!
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+
 Don't waste time with complex apps to figure out which bus you should take or when it's arriving. Use MuniButler today!
