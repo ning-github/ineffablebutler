@@ -4,30 +4,14 @@ var app = express();
 var parseString = require('xml2js').parseString;
 var fs = require('fs');
 var db = require('../config/db');
+var prettyjson = require('prettyjson');
 
 var routeCodes = require('../models/routeCodes');
 
-// var RouteList = [];
-// var options = {
-//     hostname: 'services.my511.org',
-//     path: '/Transit2.0/GetRoutesForAgencies.aspx?token=62e8fbd1-9e0e-4a3c-a906-d5d860daeb83&agencyNames=SF-MUNI'
-//   };
+var urls = [];
+var obj = {};
+var jsonContent = [];
 
-// var routeMaster = http.get(options,function(response){
-//   var completeResponse = '';
-//   response.on('data', function(chunk){
-//     completeResponse += chunk;
-//   });
-//   response.on('end', function(){
-//     parseString(completeResponse, function(err, result){
-//       RouteList.push(completeResponse);
-//       // console.log(JSON.stringify(completeResponse));
-//     });
-//   });
-// });
-
-
-console.log("HELLLLLOOOOOOO");
 var RouteList = {
   "RTT": {
     "AgencyList": {
@@ -1024,8 +1008,6 @@ var RouteList = {
   }
 };
 
-var obj = {};
-
 //using RouteList (JSON converted)
 for (var i = 0; i < RouteList.RTT.AgencyList.Agency.RouteList.Route.length; i++) {
   var shortened = RouteList.RTT.AgencyList.Agency.RouteList.Route[i]._Code
@@ -1033,13 +1015,10 @@ for (var i = 0; i < RouteList.RTT.AgencyList.Agency.RouteList.Route.length; i++)
   };
 }
 
-//run loop to get url to find all stops
-var urls = [];
 for (var key in obj) {
   urls.push(key + "~Outbound");
   urls.push(key + "~Inbound");
 };
-var jsonContent = [];
 
 for (var i = 0; i < urls.length; i++) {
   var options = {
@@ -1083,6 +1062,35 @@ var saveJsonToDb = function (json) {
       if (err) console.log('err', err);
       console.log("boooooooooooooooooooooooooooooooooooooooooooom",route);
     });
-
   }
 }
+
+// var RouteList = [];
+// var options = {
+//     hostname: 'services.my511.org',
+//     path: '/Transit2.0/GetRoutesForAgencies.aspx?token=62e8fbd1-9e0e-4a3c-a906-d5d860daeb83&agencyNames=SF-MUNI'
+//   };
+
+// var routeMaster = http.get(options,function(response){
+//   var completeResponse = '';
+//   response.on('data', function(chunk){
+//     completeResponse += chunk;
+//   });
+//   response.on('end', function(){
+//     parseString(completeResponse, function(err, result){
+//       RouteList.push(completeResponse);
+//       console.log(JSON.stringify(completeResponse, null , 4));
+//     });
+//   });
+// });
+
+
+
+
+
+
+
+
+
+
+
