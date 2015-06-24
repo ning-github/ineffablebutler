@@ -15,7 +15,7 @@ muniButlerApp.factory('FiveEleven', function($http, User){
     var times = [];
 
     var traverseXML = function(element){
-
+      console.log(element);
 
       // base case
       // find the next bus departures for the busNumber at the given stop
