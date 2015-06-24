@@ -27,7 +27,6 @@
   </head>
   <body ng-app="muniButler">
   <div class="loginbutton page-content" ng-controller="LogController">
-     <!-- <p ng-show="loggedin === false" ng-click="logout()">Log Out</p> -->
     <md-button class="md-raised md-primary" id="logout-button" ng-show="loggedin === false" ng-click="logout()">Log Out</md-button>
     <md-button class="md-raised md-primary" id="login-button" ng-repeat='option in options' ng-href="{{ option.url }}">Sign in with Google</md-button>
   </div>
