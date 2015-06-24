@@ -1,4 +1,4 @@
-muniButlerApp.controller('RoutesController', function($scope, $location, User, GoogleMaps, FiveEleven){
+muniButlerApp.controller('RoutesController', function($scope, $http, $location, User, GoogleMaps, FiveEleven){
 
   $scope.user = {};
   $scope.user.trip = User.trip;
@@ -17,22 +17,54 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
     $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
   };
 
+  $scope.user.getNextBusTimes = function(busNumber, stopName){
+    // query database to get StopCode for busNumber and stopName
+
+
+    // declare variable to hold response data from server
+    var xml; 
+
+    // make a request to 511 endpoint to get next times
+    $http.get(FiveEleven.APIEndpoints.nextDepartures(stopCode))
+      .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        xml = data;
+        return xml;
+      }).
+      error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log(status, data)
+      });
+
+    var nextDepartures = FiveEleven.getNextBusTimes(xml, stopCode)
+
+  };
+
   $scope.user.selectRoute = function(busNumber, stopName){
     console.log(busNumber, stopName);
 
     if ($scope.user.going && !$scope.user.returning){
       $scope.user.routeHeading = "Departure Route";
       $scope.user.route.route = [busNumber, stopName];
+
       User.addRoute($scope.user.route);
+
       $scope.user.routeHeading = "Return Route";
       $scope.user.going = false;
       $scope.user.returning = true;
+
       $scope.user.getRouteBack();
+
     } else if (!$scope.user.going && $scope.user.returning){
       $scope.user.route.route = [busNumber, stopName];
+
       User.addRoute($scope.user.route);
+
       $scope.user.returning = false;
       $scope.user.going = true;
+
       $location.path('/');
     }
     
