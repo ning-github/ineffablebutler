@@ -1,5 +1,6 @@
 muniButlerApp
   .controller('LogController', function ($scope, Auth) {
+    console.log('in LogController')
     $scope.here = false;
     $scope.loggedin = false;
     $scope.options = [];
