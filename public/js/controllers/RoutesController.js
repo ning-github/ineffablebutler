@@ -12,7 +12,7 @@ muniButlerApp.controller('RoutesController', function($scope, $location, User, G
     to: User.trip.to,
     route: ''
   };
-
+  
   $scope.user.getRouteBack = function(){
     $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
   };

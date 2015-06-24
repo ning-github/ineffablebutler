@@ -46,10 +46,10 @@ map {
   display: inline-block;
 }
 
-.edit-trip-button span {
-  color: #3079DA;
+.edit-trip-button#edit-route  {
   margin-left: 7px;
   font-size: 12px;
+  float: right;
 }
 
 div.busNumber {

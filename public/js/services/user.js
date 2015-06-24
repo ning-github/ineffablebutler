@@ -31,6 +31,8 @@ muniButlerApp.factory('User', function(Auth, Routes){
   user.username = '';
   user.firstName = '';
   user.loginMethod = '';
+  user.routes = [];
+  // user.trip is the current route the user is creating
   user.trip = {
     from: '178 5th Ave San Francisco, CA 94305',
     to: '944 Market St San Francisco, CA 94107'
@@ -43,8 +45,9 @@ muniButlerApp.factory('User', function(Auth, Routes){
   //   from: '13333 Candy Lane',
   //   route: ['38R', 'Geary Blvd & 6th Ave'],
   // }
-  user.routes = [];
 
+  // adds routes to the user.routes array
+  // home page displays routes in the user.routes array
   user.addRoute = function(obj){
     var route = {
       id: user.routes.length, 
