@@ -9,7 +9,6 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var routes = require('./routes/index');
-var db = require('./config/db');
 var UserDB = require('./models/user');
 var googleConfig = require('./config/googleConfig');
 
