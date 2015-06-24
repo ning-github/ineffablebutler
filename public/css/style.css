@@ -4,15 +4,19 @@ body {
   position: relative;
 }
 
-.md-raised.md-primary#login-button{
-  width: 150px;
-  background: #CF3C29;
+.md-raised.md-primary#login-button, .md-raised.md-primary#logout-button{
+  width: 180px;
+  background: #196EEE;
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 50px;
   text-decoration: none;
   color: #FFFFFF;
   font-size: 12px;
+}
+
+.md-raised.md-primary#logout-button {
+  background: #D33E2A;
 }
 
 /*a#google-login{
