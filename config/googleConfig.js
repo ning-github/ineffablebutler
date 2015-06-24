@@ -1,6 +1,6 @@
 var googleConfig = {
-    clientID: '998166503503-2it1c3ofia321h6aqlsrauv0j1dqfqhk.apps.googleusercontent.com',
-    clientSecret: 'NFTmtk1wVgXhL2ocbiAEikaS',
+    clientID: '189160676278-ci6rhq98n64ig2ekbb4ojst990u6tg6s.apps.googleusercontent.com',
+    clientSecret: 'SkWnFwdTOG69OgDZi092hHqC',
     callbackURL: "http://127.0.0.1:3000/auth/google/callback"
   }
 
