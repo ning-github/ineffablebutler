@@ -1,5 +1,7 @@
 var express = require('express');
 var path = require('path');
+var http = require('http');
+var request = require('request');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -11,6 +13,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var routes = require('./routes/index');
 var db = require('./config/db');
 var UserDB = require('./models/user');
+var RouteDB = require('./models/routeCodes.js');
 var googleConfig = require('./config/googleConfig');
 
 var app = express();
@@ -175,15 +178,81 @@ app.get('/api/logout', function (req, res) {
   });
 });
 
-app.get('/test', function (req, res) {
-  res.status(200).send({
-    status: 'get request received'
-  });
-});
+var cleanStopName = function(stopName){
+  console.log('in cleanStopName')
+  var cleaned = stopName.split('');
 
-app.post('/test', function (req, res) {
-  console.log(req.body.busNumber)
-  console.log(req.body.stopName)
+  for (var i = 0; i < cleaned.length; i++){
+    if (stopName[i] === "'"){
+      cleaned.splice(i, 1);
+    } else if (stopName[i] === "&") {
+      cleaned.splice(i, 1, 'and');
+    }
+  }
+  cleaned = cleaned.join('');
+  console.log(cleaned);
+  return cleaned;
+};
+
+
+var getXMLFrom511 = function(direction, stopName, stopCode, callback){
+
+  var APItoken = 'e04385aa-cdb9-4f5b-9d78-9c7e0dcb7260';
+  var endpoint = 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx?token=' + APItoken + '&stopCode=' + stopCode;
+  
+  var xml;
+
+  request(endpoint, function (error, response, body) {
+    console.log(error);
+    if (!error && response.statusCode == 200) {
+      xml = body;
+      callback(xml);
+    }
+  });
+
+};
+
+var queryRouteDB = function(busNumber, direction, stopName){
+  var promise = RouteDB.find({
+    "routeName": busNumber, 
+    "routeDir": direction, 
+    "routeStop.name": stopName
+  }, 
+  {
+    "routeStop": { 
+      $elemMatch: {
+        "name": stopName
+      }
+    }
+  }, function(err, result){
+    if (err){
+      console.log(err);
+      throw err;
+    }
+  }).exec();
+
+  return promise;
+};
+
+app.post('/route/times', function(req, res){
+  var busNumber = req.body.busNumber;
+  var stopName = cleanStopName(req.body.stopName);
+  var direction = req.body.direction;
+  
+  var promise = queryRouteDB(req.body.busNumber, req.body.direction, stopName);
+
+  var sendResponse = function(xml){
+    res.status(200).send({xml: xml, busNumber: busNumber, direction: direction, stopName: stopName});  
+  };
+
+  promise.then(function(stopCode){
+    var stopCode = stopCode[0]["routeStop"][0]["StopCode"];
+    
+    var xml = getXMLFrom511(direction, stopName, stopCode, function(xml){
+      sendResponse(xml);
+    });
+  });
+
 });
 
 app.use('/', routes);
