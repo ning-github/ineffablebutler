@@ -48,14 +48,11 @@ module.exports = function(grunt) {
 
     uglify: {
       dist: {
+        options: {
+          mangle:false
+        },
         src: ["public/dist/javascript.js"],
         dest: "public/dist/javascript.js"
-      },
-      lib: {
-        files: {
-          "public/lib/angular-route.min.js": ["public/lib/angular-route.js"],
-          "public/lib/angular-resource.min.js": ["public/lib/angular-resource.js"]
-        }
       }
     },
 
@@ -82,6 +79,11 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('default' , [
-    'concat','uglify:dist','cssmin','usemin'
+    'concat','cssmin','uglify'
   ]);
+
+  grunt.registerTask('html' , [
+    'usemin'
+  ]);
+
 };
