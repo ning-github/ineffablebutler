@@ -23,7 +23,7 @@ function googleSignInCallback(req, res, next) {
 		}
 		if(!user) {
 			// return res.redirect('http://localhost:3000');
-			return res.redirect('/');
+			return res.redirect('/www.whatever.com');
 		}
 		UserDB.findOne({email: user._json.email},function(err,usr) {
 			res.writeHead(302, {
