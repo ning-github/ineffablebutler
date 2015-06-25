@@ -21,6 +21,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
     $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
   };
 
+
   $scope.user.selectRoute = function(busNumber, stopName){
     console.log(busNumber, stopName);
 

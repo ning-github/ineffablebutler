@@ -1,5 +1,5 @@
 muniButlerApp
-  .controller('LogController', function ($scope, Auth) {
+  .controller('LogController', function ($scope, Auth, User) {
     console.log('in LogController')
     $scope.here = false;
     $scope.loggedin = false;
@@ -22,8 +22,10 @@ muniButlerApp
         .then(function(resp) {
           console.log('logged in');
           $scope.loggedin = true;
-          console.log('resp.data: ', resp.data); 
-          return resp.data;
+          User.displayName = resp.data.displayName;
+          User.id = resp.data.id;
+          User.routes = resp.data.routes;
+          return;
         }).catch(function(err){
           $scope.options = err.data.authMethods;
           return;
@@ -32,8 +34,3 @@ muniButlerApp
 
     $scope.login();
   });
-
-  // .controller('LogController', function ($scope, UserDb) {
-  //   var user = new UserDb(); 
-  //   console.log('user: ', user);
-  // });

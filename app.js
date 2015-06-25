@@ -95,16 +95,16 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 //creating session routes
 app.get('/api/user', function (req, res) {
   console.log("request user ", req.user);
-
   if (req.user) {
     UserDB.find({
         displayName: req.user.displayName
       })
       .exec(function (err, user) {
+        console.log('exec user: ', user);
         res.status(200).send({
-          id: user._id,
-          displayName: user.displayName,
-          routes: []
+          id: user[0]._id,
+          displayName: user[0].displayName,
+          routes: [{}, {}, {}]
         });
       });
     //logged in
