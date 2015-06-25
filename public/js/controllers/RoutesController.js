@@ -52,7 +52,6 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
   };
 
   var getNextBusTimes = function(xml, busNumber, direction, stopName){
-    console.log(stopName);
     var times = [];
 
     if (window.DOMParser) {
@@ -171,7 +170,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
 
         var handleResponse = function(data){
           var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
-          route.times = busTimes;
+          console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
         };
 
         // get arrival times for the route options
