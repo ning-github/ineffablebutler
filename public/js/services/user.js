@@ -27,8 +27,9 @@ muniButlerApp.factory('User', function (Auth) {
     };
 
     user.routes.push(route);
-    console.log(route);
+    console.log("route", Auth);
     if (user.id) {
+      console.log('adding route');
       Auth.update(user);
     }
     return route;
