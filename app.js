@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
+var request = require('request');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -193,23 +194,34 @@ var cleanStopName = function(stopName){
   return cleaned;
 };
 
-app.post('/route/times', function(req, res){
-  console.log(req.body.busNumber)
-  console.log(req.body.stopName)
-  console.log(req.body.direction)
-  var cleanStop = cleanStopName(req.body.stopName);
-  var stopCode = '';
 
-  // query database to get the stopCode for the busNumber and stopName
-  RouteDB.find({
-    "routeName": req.body.busNumber, 
-    "routeDir": req.body.direction, 
-    "routeStop.name": cleanStop
+var getXMLFrom511 = function(direction, stopName, stopCode, callback){
+
+  var APItoken = 'e04385aa-cdb9-4f5b-9d78-9c7e0dcb7260';
+  var endpoint = 'http://services.my511.org/Transit2.0/GetNextDeparturesByStopCode.aspx?token=' + APItoken + '&stopCode=' + stopCode;
+  
+  var xml;
+
+  request(endpoint, function (error, response, body) {
+    console.log(error);
+    if (!error && response.statusCode == 200) {
+      xml = body;
+      callback(xml);
+    }
+  });
+
+};
+
+var queryRouteDB = function(busNumber, direction, stopName){
+  var promise = RouteDB.find({
+    "routeName": busNumber, 
+    "routeDir": direction, 
+    "routeStop.name": stopName
   }, 
   {
     "routeStop": { 
       $elemMatch: {
-        "name": cleanStop
+        "name": stopName
       }
     }
   }, function(err, result){
@@ -217,11 +229,29 @@ app.post('/route/times', function(req, res){
       console.log(err);
       throw err;
     }
+  }).exec();
 
-    stopCode = result[0]["routeStop"][0]["StopCode"];
+  return promise;
+};
+
+app.post('/route/times', function(req, res){
+  var busNumber = req.body.busNumber;
+  var stopName = cleanStopName(req.body.stopName);
+  var direction = req.body.direction;
+  
+  var promise = queryRouteDB(req.body.busNumber, req.body.direction, stopName);
+
+  var sendResponse = function(xml){
+    res.status(200).send({xml: xml, busNumber: busNumber, direction: direction, stopName: stopName});  
+  };
+
+  promise.then(function(stopCode){
+    var stopCode = stopCode[0]["routeStop"][0]["StopCode"];
+    
+    var xml = getXMLFrom511(direction, stopName, stopCode, function(xml){
+      sendResponse(xml);
+    });
   });
-
-  // query the 511 API with the stopCode to see when the next buses are arriving
 
 });
 
