@@ -2,9 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    useminPrepare: {
-      html: "public/index.html"
-    },
+
     concat: { 
       css: {
         src: [
@@ -15,23 +13,49 @@ module.exports = function(grunt) {
       },
       lib: {
         src: [
-          "public/lib/*.js",
+          "public/lib/angular.min.js",
+          "public/lib/angular-route.min.js",
+          "public/lib/angular-resource.min.js",
+          "public/lib/angular-aria.min.js",
+          "public/lib/angular-animate.min.js",
+          "public/lib/angular-material.min.js",
+          "public/lib/ng-map.min.js",
           ],
         dest: "public/dist/lib.js"
       },
       js: {
         src: [
-          "public/js/**/*.js"
+          "public/js/app.js",
+          "public/js/services/auth.js",
+          "public/js/services/user.js",
+          "public/js/services/autocomplete.js",
+          "public/js/services/googleMaps.js",
+          "public/js/services/fiveEleven.js",
+          "public/js/controllers/LogController.js",
+          "public/js/controllers/HomeController.js",
+          "public/js/controllers/RoutesController.js"
           ],
-        
-        dest: "public/dist/js.js"
+        dest: "public/dist/javascript.js"
       }
     },
 
     cssmin: {
-      pub: {
-        src: "public/dist/style.css",
+      css: {
+        src: ["public/dist/style.css"],
         dest: "public/dist/style.css"
+      }
+    },
+
+    uglify: {
+      dist: {
+        src: ["public/dist/javascript.js"],
+        dest: "public/dist/javascript.js"
+      },
+      lib: {
+        files: {
+          "public/lib/angular-route.min.js": ["public/lib/angular-route.js"],
+          "public/lib/angular-resource.min.js": ["public/lib/angular-resource.js"]
+        }
       }
     },
 
@@ -58,6 +82,6 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('default' , [
-    'useminPrepare','concat', 'cssmin', 'usemin'
+    'concat','uglify:dist','cssmin','usemin'
   ]);
 };
