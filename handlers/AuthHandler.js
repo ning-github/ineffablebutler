@@ -22,11 +22,13 @@ function googleSignInCallback(req, res, next) {
 			return next(err);
 		}
 		if(!user) {
-			return res.redirect('http://localhost:3000');
+			// return res.redirect('http://localhost:3000');
+			return res.redirect('/www.whatever.com');
 		}
 		UserDB.findOne({email: user._json.email},function(err,usr) {
 			res.writeHead(302, {
-				'Location': 'http://localhost:3000/#/index?token=' + usr.token + '&user=' + usr.email
+				// 'Location': 'http://localhost:3000/#/index?token=' + usr.token + '&user=' + usr.email
+				'Location': '/#/index?token=' + usr.token + '&user=' + usr.email
 			});
 			res.end();
 		});
