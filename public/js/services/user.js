@@ -1,9 +1,6 @@
-muniButlerApp.factory('User', function(Auth){
+muniButlerApp.factory('User', function (Auth) {
   var user = {};
 
-  user.username = '';
-  user.firstName = '';
-  user.loginMethod = '';
   user.routes = [];
   // user.trip is the current route the user is creating
   user.trip = {
@@ -21,9 +18,9 @@ muniButlerApp.factory('User', function(Auth){
 
   // adds routes to the user.routes array
   // home page displays routes in the user.routes array
-  user.addRoute = function(obj){
+  user.addRoute = function (obj) {
     var route = {
-      id: user.routes.length, 
+      id: user.routes.length,
       from: obj.from,
       to: obj.to,
       route: obj.route
@@ -31,15 +28,19 @@ muniButlerApp.factory('User', function(Auth){
 
     user.routes.push(route);
     console.log(route);
+    if (user.id) {
+      Auth.update(user);
+    }
     return route;
   };
 
-  user.removeRoute = function(id){
+  user.removeRoute = function (id) {
     var removed = user.routes.splice(id, 1);
+    if (user.id) {
+      Auth.update(user);
+    }
     return removed;
   };
 
   return user;
 });
-
-

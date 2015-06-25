@@ -1,22 +1,25 @@
-muniButlerApp.factory('Auth', function($http){
-  var check = function(){
-    return $http({
-      method: 'GET',
-      url: '/api/user',
-      withCredentials: true,
+muniButlerApp.factory('Auth', function ($http) {
+  var check = function () {
+    return $http.get('/api/user', {
+      withCredentials: true
     });
   };
 
-  var logout = function(){
-    return $http({
-      method: 'GET',
-      url: '/api/logout',
-      withCredentials: true,
+  var update = function (user) {
+    return $http.put('/api/user', user, {
+      withCredentials: true
+    });
+  };
+
+  var logout = function () {
+    return $http.get('/api/logout', {
+      withCredentials: true
     });
   };
 
   return {
     check: check,
-    logout: logout
+    logout: logout, 
+    udpate: update
   };
 });
