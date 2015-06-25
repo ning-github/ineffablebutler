@@ -12,41 +12,14 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
     to: User.trip.to,
     route: ''
   };
-  
+
+  if (!$scope.user.route.to || !$scope.user.route.from){
+    $location.path('/');
+  }
+
   $scope.user.getRouteBack = function(){
     $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
   };
-
-  $scope.user.getNextBusTimes = function(busNumber, stopName){
-    // query database to get StopCode for busNumber and stopName
-
-
-    // declare variable to hold response data from server
-    var xml; 
-
-    // make a request to 511 endpoint to get next times
-    $http.get(FiveEleven.APIEndpoints.nextDepartures(stopName))
-      .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        xml = data;
-        console.log("DATA!!!!!!!")
-        console.log(data);
-        console.log(xml);
-        return xml;
-      }).
-      error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-        console.log(status, data)
-      });
-
-    var nextDepartures = FiveEleven.getNextBustTimes(xml, busNumber);
-    console.log(nextDepartures);
-
-  };
-
-  $scope.user.getNextBusTimes('38', "14258");
 
   $scope.user.selectRoute = function(busNumber, stopName){
     console.log(busNumber, stopName);
@@ -72,6 +45,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       $scope.user.going = true;
 
       $location.path('/');
+
     }
     
   };
