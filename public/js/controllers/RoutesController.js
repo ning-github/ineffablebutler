@@ -69,7 +69,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       if (!status === "OK"){
         throw status;
       }
-      // $scope.user.routeOptions =  $scope.user.handleResults(results);
+      console.log(results);
 
       directionsDisplay.setDirections(results);
 
@@ -94,20 +94,35 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
         var steps = results.routes[i].legs['0'].steps;
 
         // iterate over the steps in each route to find the bus line(s)
-        // in the given route option
+        // in the given route option and the direction (inbound or outbound)
         for (var key in steps){
           if (steps[key].travel_mode === "TRANSIT"){
             // the busNumber is called the short_name in Google's results object
             var busNumber = results.routes[i].legs['0'].steps[key].transit.line.short_name;
             var stopName = results.routes[i].legs['0'].steps[key].transit.departure_stop.name;
-            route.lines.push([busNumber, stopName]);
+
+            var arrivalLocation = results.routes[i].legs['0'].steps[key].transit.arrival_stop.location.F;
+            var departureLocation = results.routes[i].legs['0'].steps[key].transit.departure_stop.location.F;
+
+            console.log(arrivalLocation);
+            console.log(departureLocation);
+
+            if (arrivalLocation > departureLocation){
+              var direction = "Inbound";
+            } else {
+              var direction = "Outbound";
+            }
+
+            route.lines.push([busNumber, stopName, direction]);
           }
         }
 
-        console.log(stopName)
+
+
+        console.log(route)
 
         // get arrival times for the route options
-        $http.post('/route/times', {busNumber: busNumber, stopName: stopName})
+        $http.post('/route/times', {busNumber: busNumber, stopName: stopName, direction: direction})
           .success(function(data, status, headers, config) {
               // this callback will be called asynchronously
               // when the response is available

@@ -12,6 +12,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var routes = require('./routes/index');
 var db = require('./config/db');
 var UserDB = require('./models/user');
+var RouteDB = require('./models/routeCodes.js');
 var googleConfig = require('./config/googleConfig');
 
 var app = express();
@@ -195,8 +196,33 @@ var cleanStopName = function(stopName){
 app.post('/route/times', function(req, res){
   console.log(req.body.busNumber)
   console.log(req.body.stopName)
+  console.log(req.body.direction)
   var cleanStop = cleanStopName(req.body.stopName);
-  
+  var stopCode = '';
+
+  // query database to get the stopCode for the busNumber and stopName
+  RouteDB.find({
+    "routeName": req.body.busNumber, 
+    "routeDir": req.body.direction, 
+    "routeStop.name": cleanStop
+  }, 
+  {
+    "routeStop": { 
+      $elemMatch: {
+        "name": cleanStop
+      }
+    }
+  }, function(err, result){
+    if (err){
+      console.log(err);
+      throw err;
+    }
+
+    stopCode = result[0]["routeStop"][0]["StopCode"];
+  });
+
+  // query the 511 API with the stopCode to see when the next buses are arriving
+
 });
 
 app.use('/', routes);

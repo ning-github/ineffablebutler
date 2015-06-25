@@ -13,7 +13,8 @@ muniButlerApp.factory('User', function (Auth) {
   // {
   //   to: '944 Market St',
   //   from: '13333 Candy Lane',
-  //   route: ['38R', 'Geary Blvd & 6th Ave'],
+  //   route: ['38R', 'Geary Blvd & 6th Ave', 'Inbound'],
+  //   nextBus: ['3', '7', '12'] // minutes
   // }
 
   // adds routes to the user.routes array
