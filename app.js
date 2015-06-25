@@ -132,6 +132,17 @@ app.get('/api/logout', function (req, res) {
   });
 });
 
+app.get('/test', function(req, res){
+  res.status(200).send({
+    status: 'get request received'
+  });
+});
+
+app.post('/test', function(req, res){
+  console.log(req.body.busNumber)
+  console.log(req.body.stopName)
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -140,6 +151,8 @@ app.use(function (req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handlers
 
