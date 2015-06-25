@@ -104,7 +104,7 @@ app.get('/api/user', function (req, res) {
         res.status(200).send({
           id: user[0]._id,
           displayName: user[0].displayName,
-          routes: [{}, {}, {}]
+          routes: user[0].routes
         });
       });
     //logged in
@@ -122,10 +122,42 @@ app.get('/api/user', function (req, res) {
 });
 
 app.put('/api/user', function (req, res) {
-  console.log("request user post ", req.user);
+  console.log("request user post ", req.body);
+  UserDB.findOneAndUpdate({
+      displayName: req.body.displayName
+    }, {
+      routes: req.body.routes
+    }, null,
+    function (err, user) {
+      if(err){
+        console.log("put error:", err);
+      }
 
+      console.log('exec user: ', user);
+      res.status(200).send({
+        id: user._id,
+        displayName: user.displayName,
+        routes: user.routes
+      });
+    });
 
 });
+
+var test = {
+  routes: [{
+    id: 0,
+    from: '30 Mason Street, San Francisco, CA 94102, USA',
+    to: '7th Ave, San Francisco, CA, USA',
+    route: [Object]
+  }],
+  trip: {
+    to: '7th Ave, San Francisco, CA, USA',
+    from: '30 Mason Street, San Francisco, CA 94102, USA'
+  },
+  displayName: 'françois romain',
+  id: '558b2c8e153df495b8a6b8e1'
+};
+
 
 app.get('/api/logout', function (req, res) {
   console.log("logout req user ", req.user);
@@ -136,13 +168,13 @@ app.get('/api/logout', function (req, res) {
   });
 });
 
-app.get('/test', function(req, res){
+app.get('/test', function (req, res) {
   res.status(200).send({
     status: 'get request received'
   });
 });
 
-app.post('/test', function(req, res){
+app.post('/test', function (req, res) {
   console.log(req.body.busNumber)
   console.log(req.body.stopName)
 });
