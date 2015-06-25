@@ -129,7 +129,7 @@ app.put('/api/user', function (req, res) {
       routes: req.body.routes
     }, null,
     function (err, user) {
-      if(err){
+      if (err) {
         console.log("put error:", err);
       }
 
@@ -143,21 +143,28 @@ app.put('/api/user', function (req, res) {
 
 });
 
-var test = {
-  routes: [{
-    id: 0,
-    from: '30 Mason Street, San Francisco, CA 94102, USA',
-    to: '7th Ave, San Francisco, CA, USA',
-    route: [Object]
-  }],
-  trip: {
-    to: '7th Ave, San Francisco, CA, USA',
-    from: '30 Mason Street, San Francisco, CA 94102, USA'
-  },
-  displayName: 'françois romain',
-  id: '558b2c8e153df495b8a6b8e1'
-};
+app.get('/api/bus/:number/:direction/:stopname', function (req, res) {
+  var busStopInfos = {
+    number: req.params.number,
+    direction: req.params.direction,
+    stopname: req.params.stopname
+  };
 
+  // BusDb.find(busStopInfos, function (err, busInfo) {
+  //   if (err) {
+  //     console.log("bus error:", err);
+  //   }
+
+  //   // api query and in callback send response 
+  //   // res.status(200).send({
+  //   //   number: "busInfo.something form api",
+  //   //   direction: "busInfo.something form api",
+  //   //   stopname: "busInfo.something form api"
+  //   // });
+  //   console.log('busInfo: ', busInfo);
+    
+  // });
+});
 
 app.get('/api/logout', function (req, res) {
   console.log("logout req user ", req.user);
