@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var http = require('http');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -175,15 +176,27 @@ app.get('/api/logout', function (req, res) {
   });
 });
 
-app.get('/test', function (req, res) {
-  res.status(200).send({
-    status: 'get request received'
-  });
-});
+var cleanStopName = function(stopName){
+  console.log('in cleanStopName')
+  var cleaned = stopName.split('');
 
-app.post('/test', function (req, res) {
+  for (var i = 0; i < cleaned.length; i++){
+    if (stopName[i] === "'"){
+      cleaned.splice(i, 1);
+    } else if (stopName[i] === "&") {
+      cleaned.splice(i, 1, 'and');
+    }
+  }
+  cleaned = cleaned.join('');
+  console.log(cleaned);
+  return cleaned;
+};
+
+app.post('/route/times', function(req, res){
   console.log(req.body.busNumber)
   console.log(req.body.stopName)
+  var cleanStop = cleanStopName(req.body.stopName);
+  
 });
 
 app.use('/', routes);

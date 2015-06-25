@@ -104,14 +104,27 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
           }
         }
 
+        console.log(stopName)
+
+        // get arrival times for the route options
+        $http.post('/route/times', {busNumber: busNumber, stopName: stopName})
+          .success(function(data, status, headers, config) {
+              // this callback will be called asynchronously
+              // when the response is available
+              console.log('SUCCESS: ', data);
+            })
+          .error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.log('ERROR: ', data);
+            });
+
         // add route to options routes array
-       options.routes.push(route);
+        options.routes.push(route);
       }
       
       $scope.user.routeOptions = options;
-      $scope.$apply();
-      console.log($scope.user.routeOptions);
-      
+      $scope.$apply();      
     });
   }; // end of getRouteOptions
 
