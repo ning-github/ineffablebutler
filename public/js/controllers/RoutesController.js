@@ -22,12 +22,12 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
   };
 
 
-  $scope.user.selectRoute = function(busNumber, stopName){
+  $scope.user.selectRoute = function(busNumber, stopName, duration, arrivalTimes){
     
 
     if ($scope.user.going && !$scope.user.returning){
       $scope.user.routeHeading = "Departure Route";
-      $scope.user.route.route = [busNumber, stopName];
+      $scope.user.route.route = [busNumber, stopName, duration, arrivalTimes];
 
       User.addRoute($scope.user.route);
 
@@ -38,7 +38,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       $scope.user.getRouteBack();
 
     } else if (!$scope.user.going && $scope.user.returning){
-      $scope.user.route.route = [busNumber, stopName];
+      $scope.user.route.route = [busNumber, stopName, duration, arrivalTimes];
 
       User.addRoute($scope.user.route);
 
@@ -168,31 +168,37 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
           }
         }
 
-        var handleResponse = function(data){
-          var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
-          console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
-        };
-
         // get arrival times for the route options
-        $http.post('/route/times', {busNumber: route.lines[0][0], stopName: route.lines[0][1], direction: route.lines[0][2]})
-          .success(handleResponse)
-          .error(function(data, status, headers, config) {
+        var handleArrivals = function(num,max,scope) {
+          $http.post('/route/times', {busNumber: route.lines[0][0], stopName: route.lines[0][1], direction: route.lines[0][2]})
+            .success(function(data){
+              var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
+              console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
+              options.routes[num].arrivalTimes = busTimes;
+              console.log(num,max);
+              if (num === (max-1)) {
+                console.log(options.routes);
+                scope.user.routeOptions = options;
+              }
+            })
+            .error(function(data, status, headers, config) {
               // called asynchronously if an error occurs
               // or server returns response with an error status.
               console.log('ERROR: ', data);
             });
+        };
+
+        handleArrivals(i,results.routes.length,$scope);
 
         // add route to options routes array
         // console.log(route);
         options.routes.push(route);
       }
-      console.log(options.routes)
-      $scope.user.routeOptions = options;
-      $scope.$apply();  
       // console.log($scope.user.routeOptions);    
     });
   }; // end of getRouteOptions
 
   $scope.user.getRouteOptions(User.trip['from'], User.trip['to']);
+  $scope.$apply();  
 
 }); //end of routes controller
