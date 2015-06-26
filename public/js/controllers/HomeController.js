@@ -7,6 +7,10 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   // hide when routes are available
   $scope.newroute = false;
   $scope.msg = "Add new route!";
+
+  $scope.showOptions = function(route){
+    console.log(route);
+  };
         
   $scope.setMap = function(location){
     var directionsDisplay = GoogleMaps.createDirectionsRendererObject();

@@ -34,12 +34,13 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       $scope.user.routeHeading = "Return Route";
       $scope.user.going = false;
       $scope.user.returning = true;
-
+      debugger;
       $scope.user.getRouteBack();
 
     } else if (!$scope.user.going && $scope.user.returning){
+      console.log('in return route');
+      
       $scope.user.route.route = [busNumber, stopName, duration, arrivalTimes];
-
       User.addRoute($scope.user.route);
 
       $scope.user.returning = false;
@@ -152,6 +153,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
         for (var key in steps){
           if (steps[key].travel_mode === "TRANSIT"){
             // the busNumber is called the short_name in Google's results object
+           
             var busNumber = results.routes[i].legs['0'].steps[key].transit.line.short_name;
             var stopName = results.routes[i].legs['0'].steps[key].transit.departure_stop.name;
 
@@ -164,7 +166,9 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
               var direction = "Outbound";
             }
 
-            route.lines.push([busNumber, stopName, direction]);
+            if (busNumber){
+              route.lines.push([busNumber, stopName, direction]);
+            }
           }
         }
 
