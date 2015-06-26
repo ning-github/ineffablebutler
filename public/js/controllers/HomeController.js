@@ -54,7 +54,7 @@ muniButlerApp.controller('HomeController', function($scope, User, $location, Aut
   }
 
   $scope.submit = function(validation){
-    console.log('in submit funciton')
+    console.log('in submit function')
     if (!validation) return;
     User.trip = { to: $scope.user.to, from: $scope.user.from };
     $location.path('/routes');

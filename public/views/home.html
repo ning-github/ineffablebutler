@@ -24,7 +24,9 @@
       <h3>My Routes</h3>
       <md-card class="my-routes" ng-repeat="route in routes | filter:search | orderBy:'-id'">
         <md-card-content>
-          <div class="busNumber">{{ route.route[0] }}</div> 
+          <div class="busNumber">{{ route.route[0] }}</div>
+          <div class="duration">{{ route.route[3] }}</div>
+          <div class="duration">{{ route.route[2] }}</div>
           <div class="stopName">{{ route.route[1] }}</div>
         </md-card-content>
       </md-card>
