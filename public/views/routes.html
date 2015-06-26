@@ -17,10 +17,11 @@
     <h3>{{ user.routeHeading }}</h3>
     <md-card class="route-option" ng-repeat="route in user.routeOptions.routes track by $index" ng-click="user.selectRoute(route.lines[0][0], route.lines[0][1], route.duration, route.arrivalTimes)">
       <md-card-content>
-        <div class="duration">{{ route.arrivalTimes }}</div>
-        <div class="duration">{{ route.duration }}</div>
-        <div class="stopName">{{ route.lines[0][1] }}</div>
         <div ng-repeat="lineInfo in route.lines" class="busNumber">{{ lineInfo[0] }}</div>
+        <div class="duration">{{ route.duration }}</div>
+        <div class="arrivalTimes" ng-show="route.arrivalTimes.length > 0">Arriving in <div class="time" ng-repeat="time in route.arrivalTimes">{{ time }}</div> minutes</div>
+        <div class="arrivalTimes no-times" ng-show="route.arrivalTimes.length === 0">No times available</div>
+        <div class="stopName">{{ route.lines[0][1] }}</div>
       </md-card-content>
     </md-card>
   </md-content>

@@ -93,6 +93,34 @@ div.busNumber {
   border-radius: 2px;
   border: 1px solid #2369c5;
   text-shadow: 1px 0 #000000;
+  float: left;
+}
+
+.arrivalTimes {
+  clear: both;
+  font-size: 12px;
+  display: inline-block;
+  float: left;
+}
+
+.arrivalTimes.no-times{
+  color: #999999;
+}
+
+.arrivalTimes, div.stopName{
+  margin-top: 5px;
+}
+
+.arrivalTimes .time{
+  display: inline-block;
+  margin-right: 6px;
+  background: #dde9f9;
+  border-radius: 2px;
+  padding: 1px 3px;
+}
+
+.arrivalTimes .time:last-child {
+  margin-right: 0px;
 }
 
 div.busNumber, div.duration{
