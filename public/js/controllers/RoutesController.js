@@ -34,7 +34,6 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       $scope.user.routeHeading = "Return Route";
       $scope.user.going = false;
       $scope.user.returning = true;
-      debugger;
       $scope.user.getRouteBack();
 
     } else if (!$scope.user.going && $scope.user.returning){
@@ -153,7 +152,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
         for (var key in steps){
           if (steps[key].travel_mode === "TRANSIT"){
             // the busNumber is called the short_name in Google's results object
-
+           
             var busNumber = r.legs['0'].steps[key].transit.line.short_name;
             var stopName = r.legs['0'].steps[key].transit.departure_stop.name;
 
@@ -209,5 +208,5 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
     });
   };
 
-  $timeout(updateBusTimes,3000);
+  $timeout(updateBusTimes,2000);
 }); //end of routes controller
