@@ -17,6 +17,30 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
     $location.path('/');
   }
 
+  var updateBusTimes = function(){
+    if ($scope.user.routeOptions === undefined) return;
+      // edit route to have arrival information
+    angular.forEach($scope.user.routeOptions.routes, function(r,i,obj) {
+      console.log(r.lines[0][0], r.lines[0][1], r.lines[0][2]);
+      $http.post('/route/times', {busNumber: r.lines[0][0], stopName: r.lines[0][1], direction: r.lines[0][2]})
+        .success(function(data){
+          var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
+          console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
+          // options.routes[i].arrivalTimes = busTimes;
+          console.log(i);
+          $scope.user.routeOptions.routes[i].arrivalTimes = busTimes;
+        })
+        .error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log('ERROR: ', data);
+        })
+        .finally(function(){
+          console.log('finished',i);
+        });
+    });
+  };
+
   $scope.user.getRouteBack = function(){
     $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
   };
@@ -34,7 +58,8 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       $scope.user.routeHeading = "Return Route";
       $scope.user.going = false;
       $scope.user.returning = true;
-      $scope.user.getRouteBack();
+      // $scope.user.getRouteBack();
+      $scope.user.getRouteOptions(User.trip['to'], User.trip['from']);
 
     } else if (!$scope.user.going && $scope.user.returning){
       console.log('in return route');
@@ -107,6 +132,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
   };
 
   $scope.user.getRouteOptions = function(from, to){
+    console.log(from,to);
     var directions =  GoogleMaps.createDirectionsService();
     var directionsRequest = GoogleMaps.getDirectionsRequestObject(from, to);
     var directionsDisplay = GoogleMaps.createDirectionsRendererObject();
@@ -178,35 +204,10 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       });
 
       $scope.user.routeOptions = options;
-      
+      $scope.$apply();      
     });
-  }; // end of getRouteOptions
-
-  $scope.user.getRouteOptions(User.trip.from, User.trip.to);
-      
-  var updateBusTimes = function(){
-    if ($scope.user.routeOptions === undefined) return;
-      // edit route to have arrival information
-    angular.forEach($scope.user.routeOptions.routes, function(r,i,obj) {
-      console.log(r.lines[0][0], r.lines[0][1], r.lines[0][2]);
-      $http.post('/route/times', {busNumber: r.lines[0][0], stopName: r.lines[0][1], direction: r.lines[0][2]})
-        .success(function(data){
-          var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
-          console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
-          // options.routes[i].arrivalTimes = busTimes;
-          console.log(i);
-          $scope.user.routeOptions.routes[i].arrivalTimes = busTimes;
-        })
-        .error(function(data, status, headers, config) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          console.log('ERROR: ', data);
-        })
-        .finally(function(){
-          console.log('finished',i);
-        });
-    });
-  };
-
   $timeout(updateBusTimes,2000);
+  }; // end of getRouteOptions
+  $scope.user.getRouteOptions(User.trip.from, User.trip.to);
+
 }); //end of routes controller
