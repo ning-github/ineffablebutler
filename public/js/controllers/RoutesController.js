@@ -1,4 +1,4 @@
-muniButlerApp.controller('RoutesController', function($scope, $http, $location, User, GoogleMaps, FiveEleven){
+muniButlerApp.controller('RoutesController', function($scope, $http, $location, User, GoogleMaps, FiveEleven, $timeout){
 
   $scope.user = {};
   $scope.user.trip = User.trip;
@@ -6,7 +6,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
   $scope.user.going = true;
   $scope.user.routeHeading = "Departure Route";
   $scope.user.returning = false;
-  $scope.user.routeOptions;
+  $scope.user.routeOptions = {};
   $scope.user.route = {
     from: User.trip.from,
     to: User.trip.to,
@@ -54,12 +54,13 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
 
   var getNextBusTimes = function(xml, busNumber, direction, stopName){
     var times = [];
+    var xmlDoc;
 
     if (window.DOMParser) {
       var parser = new DOMParser();
-      var xmlDoc = parser.parseFromString(xml,"text/xml");
+      xmlDoc = parser.parseFromString(xml,"text/xml");
     } else {
-      var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
       xmlDoc.async = "false";
       xmlDoc.loadXML(xml); 
     }
@@ -133,8 +134,7 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
       options.routes = [];
 
       // iterate through possible routes to take
-      for (var i = 0; i < results.routes.length; i++){
-
+      angular.forEach(results.routes, function(r,i,obj){
         // create an object to store all info related to this route
         // it will be added to the options object
         var route = {};
@@ -143,27 +143,29 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
         route.lines = [];
 
         // add route duration to route object
-        route.duration = results.routes[i].legs['0'].duration.text;
+        route.duration = r.legs['0'].duration.text;
 
         // define a steps variable for readibility for iterating over
-        var steps = results.routes[i].legs['0'].steps;
+        var steps = r.legs['0'].steps;
 
         // iterate over the steps in each route to find the bus line(s)
         // in the given route option and the direction (inbound or outbound)
         for (var key in steps){
           if (steps[key].travel_mode === "TRANSIT"){
             // the busNumber is called the short_name in Google's results object
-           
-            var busNumber = results.routes[i].legs['0'].steps[key].transit.line.short_name;
-            var stopName = results.routes[i].legs['0'].steps[key].transit.departure_stop.name;
 
-            var arrivalLocation = results.routes[i].legs['0'].steps[key].transit.arrival_stop.location.F;
-            var departureLocation = results.routes[i].legs['0'].steps[key].transit.departure_stop.location.F;     
+            var busNumber = r.legs['0'].steps[key].transit.line.short_name;
+            var stopName = r.legs['0'].steps[key].transit.departure_stop.name;
+
+            var arrivalLocation = r.legs['0'].steps[key].transit.arrival_stop.location.F;
+            var departureLocation = r.legs['0'].steps[key].transit.departure_stop.location.F;
+
+            var direction;     
 
             if (arrivalLocation > departureLocation){
-              var direction = "Inbound";
+            direction = "Inbound";
             } else {
-              var direction = "Outbound";
+             direction = "Outbound";
             }
 
             if (busNumber){
@@ -171,38 +173,41 @@ muniButlerApp.controller('RoutesController', function($scope, $http, $location, 
             }
           }
         }
-
-        // get arrival times for the route options
-        var handleArrivals = function(num,max,scope) {
-          $http.post('/route/times', {busNumber: route.lines[0][0], stopName: route.lines[0][1], direction: route.lines[0][2]})
-            .success(function(data){
-              var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
-              console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
-              options.routes[num].arrivalTimes = busTimes;
-              console.log(num,max);
-              if (num === (max-1)) {
-                console.log(options.routes);
-                scope.user.routeOptions = options;
-              }
-            })
-            .error(function(data, status, headers, config) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
-              console.log('ERROR: ', data);
-            });
-        };
-
-        handleArrivals(i,results.routes.length,$scope);
-
         // add route to options routes array
-        // console.log(route);
         options.routes.push(route);
-      }
-      // console.log($scope.user.routeOptions);    
+        
+      });
+
+      $scope.user.routeOptions = options;
+      
     });
   }; // end of getRouteOptions
 
-  $scope.user.getRouteOptions(User.trip['from'], User.trip['to']);
-  $scope.$apply();  
+  $scope.user.getRouteOptions(User.trip.from, User.trip.to);
+      
+  var updateBusTimes = function(){
+    if ($scope.user.routeOptions === undefined) return;
+      // edit route to have arrival information
+    angular.forEach($scope.user.routeOptions.routes, function(r,i,obj) {
+      console.log(r.lines[0][0], r.lines[0][1], r.lines[0][2]);
+      $http.post('/route/times', {busNumber: r.lines[0][0], stopName: r.lines[0][1], direction: r.lines[0][2]})
+        .success(function(data){
+          var busTimes = getNextBusTimes(data.xml, data.busNumber, data.direction, data.stopName);
+          console.log('bus: ', data.busNumber, 'arrival times: ', busTimes);
+          // options.routes[i].arrivalTimes = busTimes;
+          console.log(i);
+          $scope.user.routeOptions.routes[i].arrivalTimes = busTimes;
+        })
+        .error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log('ERROR: ', data);
+        })
+        .finally(function(){
+          console.log('finished',i);
+        });
+    });
+  };
 
+  $timeout(updateBusTimes,3000);
 }); //end of routes controller
