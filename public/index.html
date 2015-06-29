@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <!-- the build comments below are used by Grunt to replace them for deployment -->
   <title>MuniButler</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- build:css dist/style.css -->
@@ -25,7 +26,6 @@
   <script src="js/services/user.js"></script>
   <script src="js/services/autocomplete.js"></script>
   <script src="js/services/googleMaps.js"></script>
-  <script src="js/services/fiveEleven.js"></script>
   <script src="js/controllers/LogController.js"></script>
   <script src="js/controllers/HomeController.js"></script>
   <script src="js/controllers/RoutesController.js"></script>
@@ -34,11 +34,13 @@
 
 <body ng-app="muniButler">
   <div class="loginbutton page-content" ng-controller="LogController">
+    <!-- log out button -->
     <md-button class="md-raised md-primary btn logout" ng-show="loggedin === true" ng-click="logout()">
       Log Out
     </md-button>
+    <!-- button for each log in option -->
     <md-button class="md-raised md-primary btn login" ng-repeat='option in options' ng-href="{{ option.url }}">
-      Sign in with Google
+      Sign in with {{ option.name }}
     </md-button>
   </div>
   <div ng-view>

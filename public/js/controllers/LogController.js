@@ -1,36 +1,47 @@
-muniButlerApp
-  .controller('LogController', function ($scope, Auth, User) {
-    console.log('in LogController')
-    $scope.here = false;
-    $scope.loggedin = false;
-    $scope.options = [];
+muniButlerApp.controller('LogController', function ($scope, Auth, User) {
+  // controller for the index page
+  // author: Albert Tang
 
-    $scope.logout = function(){ 
-      Auth.logout()
-        .then(function(resp) {
-          console.log('logged out');
-          $scope.loggedin = false;
-          return $scope.login();
-        }).catch(function(err){
-          console.log(err);
-          return;
-        });
-    };
+  // is the user logged in?
+  $scope.loggedin = false;
 
-    $scope.login = function() {
-      Auth.check()
-        .then(function(resp) {
-          console.log('logged in');
-          $scope.loggedin = true;
-          User.displayName = resp.data.displayName;
-          User.id = resp.data.id;
-          User.routes = resp.data.routes;
-          return;
-        }).catch(function(err){
-          $scope.options = err.data.authMethods;
-          return;
-        });
-    };
+  // array to store the possible log in options
+  $scope.options = [];
 
-    $scope.login();
-  });
+  // use the Auth factory to check if the user is logged in
+  $scope.logincheck = function () {
+    Auth.check()
+      // if yes, update the User information in the User factory
+      .then(function (resp) {
+        $scope.loggedin = true;
+        User.displayName = resp.data.displayName;
+        User.id = resp.data.id;
+        User.routes = resp.data.routes;
+        return;
+      })
+      // if no, fill in the possible log in options
+      .catch(function (err) {
+        $scope.options = err.data.authMethods;
+        return;
+      });
+  };
+
+  // use the Auth factory to log out
+  $scope.logout = function () {
+    Auth.logout()
+      .then(function (resp) {
+        $scope.loggedin = false;
+        return $scope.logincheck();
+      })
+      .catch(function (err) {
+        console.log(err);
+        return;
+      });
+  };
+
+  // =================================
+  //   FUNCTIONS THAT RUN ON LOAD
+  // =================================
+  $scope.logincheck();
+
+});
