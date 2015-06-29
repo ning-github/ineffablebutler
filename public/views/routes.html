@@ -1,29 +1,29 @@
 <div class="page-content">
   <md-content layout-padding layout-sm="column">
     <map zoom="18" id="routes-map"></map>
-    <div class="edit-trip-button"><h3>Trip</h3></div>
+    <h3>Trip</h3>
     <md-card>
       <md-card-content>
-        <div class="tripLabel">Leaving from:</div>
-        <div class="departure-address">{{ model.trip['from'] }}</div>
+        <div class="address-label">Leaving from:</div>
+        <div class="address">{{ model.trip['from'] }}</div>
       </md-card-content>
     </md-card>
-     <md-card>
+    <md-card>
       <md-card-content>
-        <div class="tripLabel">Arriving at:</div>
-        <div class="destination-address">{{ model.trip['to'] }}</div>
+        <div class="address-label">Arriving at:</div>
+        <div class="address">{{ model.trip['to'] }}</div>
       </md-card-content>
     </md-card>
     <h3>{{ model.routeHeading }}</h3>
     <md-card class="route-option" ng-repeat="route in model.routeOptions.routes track by $index" ng-click="model.selectRoute(route.lines[0][0], route.lines[0][1], route.duration, route.arrivalTimes)">
       <md-card-content>
-        <div ng-repeat="lineInfo in route.lines" class="busNumber">{{ lineInfo[0] }}</div>
+        <div ng-repeat="lineInfo in route.lines" class="bus-number">{{ lineInfo[0] }}</div>
         <div class="duration">{{ route.duration }}</div>
-        <div class="arrivalTimes" ng-show="route.arrivalTimes.length > 0">Arriving in <div class="time" ng-repeat="time in route.arrivalTimes track by $index">{{ time }}</div> minutes</div>
-        <div class="arrivalTimes no-times" ng-show="route.arrivalTimes.length === 0">No times available</div>
-        <div class="stopName">{{ route.lines[0][1] }}</div>
+        <div class="arrival-times" ng-show="route.arrivalTimes.length > 0">Arriving in
+          <div class="time" ng-repeat="time in route.arrivalTimes track by $index">{{ time }}</div> minutes</div>
+        <div class="arrival-times no-times" ng-show="route.arrivalTimes.length === 0">No times available</div>
+        <div class="stop">{{ route.lines[0][1] }}</div>
       </md-card-content>
     </md-card>
   </md-content>
 </div>
-
