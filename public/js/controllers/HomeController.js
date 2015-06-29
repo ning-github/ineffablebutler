@@ -57,7 +57,7 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
 
   // use the GoogleMaps factory to update the map
   $scope.setMap = function (location) {
-    var directionsDisplay = GoogleMaps.createDirectionsRendererObject();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
     var mapOptions = {
       zoom: 18,
       center: location
