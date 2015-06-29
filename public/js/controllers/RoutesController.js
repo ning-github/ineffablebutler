@@ -5,7 +5,7 @@
  ** Authors: Danielle Knudson, Albert Tang
  */
 
-muniButlerApp.controller('RoutesController', function ($scope, $http, $location, User, GoogleMaps, FiveEleven, $timeout) {
+muniButlerApp.controller('RoutesController', function ($scope, $http, $location, $timeout, User, GoogleMaps) {
 
   /**************
    ** VARIABLES **
@@ -53,19 +53,19 @@ muniButlerApp.controller('RoutesController', function ($scope, $http, $location,
 
       // Request route times for the bus from server
       $http.post('/route/times', {
-          busNumber: route.lines[0][0],
-          stopName: route.lines[0][1],
-          direction: route.lines[0][2]
-        }).success(function (data) {
-          // Traverse the XML data response from the server to get bus arrival times
-          var busTimes = traverseXML(data.xml, data.busNumber, data.direction, data.stopName);
+        busNumber: route.lines[0][0],
+        stopName: route.lines[0][1],
+        direction: route.lines[0][2]
+      }).success(function (data) {
+        // Traverse the XML data response from the server to get bus arrival times
+        var busTimes = traverseXML(data.xml, data.busNumber, data.direction, data.stopName);
 
-          // Add the bus arrival times to the given route object to be displayed in routes.html
-          $scope.model.routeOptions.routes[i].arrivalTimes = busTimes;
-        })
-        .error(function (data, status, headers, config) {
-          throw 'ERROR: ' + data;
-        });
+        // Add the bus arrival times to the given route object to be displayed in routes.html
+        $scope.model.routeOptions.routes[i].arrivalTimes = busTimes;
+      })
+      .error(function (data, status, headers, config) {
+        throw 'ERROR: ' + data;
+      });
     });
   };
 
