@@ -38,9 +38,7 @@ app.set('view engine', 'jade');
 app.use('/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/logout', logoutRouter);
-// replace with /api/bus/
-app.use('/route/times', busRouter);
-app.use('/auth', authRouter);
+app.use('/api/bus', busRouter);
 
 app.use('/', routes);
 // catch 404 and forward to error handler

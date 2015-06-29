@@ -34,15 +34,17 @@
 </head>
 
 <body ng-app="muniButler">
-  <div class="loginbutton page-content" ng-controller="LogController">
+  <div class="page-content" ng-controller="LogController">
     <!-- log out button -->
-    <md-button class="md-raised md-primary btn logout" ng-show="loggedin === true" ng-click="logout()">
-      Log Out
-    </md-button>
-    <!-- button for each log in option -->
-    <md-button class="md-raised md-primary btn login" ng-repeat='option in options' ng-href="{{ option.url }}">
-      Sign in with {{ option.name }}
-    </md-button>
+    <div class="btn-container login-logout">
+      <md-button class="md-raised btn logout" ng-show="loggedin === true" ng-click="logout()">
+        Log Out
+      </md-button>
+      <!-- button for each log in option -->
+      <md-button class="md-raised md-primary btn login {{ option.name.toLowerCase() }}" ng-repeat='option in options' ng-href="{{ option.url }}">
+        Sign in with {{ option.name }}
+      </md-button>
+    </div>
   </div>
   <div ng-view>
   </div>
