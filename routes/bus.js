@@ -14,7 +14,6 @@ var cleanStopName = function (stopName) {
     }
   }
   cleaned = cleaned.join('');
-  console.log(cleaned);
   return cleaned;
 };
 var getXMLFrom511 = function (direction, stopName, stopCode, callback) {
@@ -29,8 +28,12 @@ var getXMLFrom511 = function (direction, stopName, stopCode, callback) {
     }
   });
 };
-var queryRouteDB = function (busNumber, direction, stopName) {
-  var promise = RouteDB.find({
+
+busRouter.get('/', function (req, res) {
+  var busNumber = req.query.busNumber;
+  var direction = req.query.direction;
+  var stopName = cleanStopName(req.query.stopName);
+  RouteDB.find({
     "routeName": busNumber,
     "routeDir": direction,
     "routeStop.name": stopName
@@ -40,52 +43,26 @@ var queryRouteDB = function (busNumber, direction, stopName) {
         "name": stopName
       }
     }
-  }, function (err, result) {
+  }).exec(function (err, stopCode) {
     if (err) {
-      console.log(err);
-      throw err;
+      console.log("error: ", err);
+    } 
+
+    if (stopCode.length > 0) {
+      stopCode = stopCode[0]["routeStop"][0]["StopCode"];
+
+      getXMLFrom511(direction, stopName, stopCode, function (xml) {
+        res.status(200).send({
+          xml: xml,
+          busNumber: busNumber,
+          direction: direction,
+          stopName: stopName
+        });
+      });
+    } else {
+      res.status(204).send({ err: "StopCode not available." });
     }
-  }).exec();
-  return promise;
-};
-busRouter.get('/:number/:direction/:stopname', function (req, res) {
-  console.log(req, res);
-  var busStopInfos = {
-    number: req.params.number,
-    direction: req.params.direction,
-    stopname: req.params.stopname
-  };
-  // BusDb.find(busStopInfos, function (err, busInfo) {
-  //   if (err) {
-  //     console.log("bus error:", err);
-  //   }
-  //   // api query and in callback send response 
-  //   // res.status(200).send({
-  //   //   number: "busInfo.something form api",
-  //   //   direction: "busInfo.something form api",
-  //   //   stopname: "busInfo.something form api"
-  //   // });
-  //   console.log('busInfo: ', busInfo);
-  // });
-});
-busRouter.post('/', function (req, res) {
-  var busNumber = req.body.busNumber;
-  var stopName = cleanStopName(req.body.stopName);
-  var direction = req.body.direction;
-  var promise = queryRouteDB(req.body.busNumber, req.body.direction, stopName);
-  var sendResponse = function (xml) {
-    res.status(200).send({
-      xml: xml,
-      busNumber: busNumber,
-      direction: direction,
-      stopName: stopName
-    });
-  };
-  promise.then(function (stopCode) {
-    var stopCode = stopCode[0]["routeStop"][0]["StopCode"];
-    var xml = getXMLFrom511(direction, stopName, stopCode, function (xml) {
-      sendResponse(xml);
-    });
+
   });
 });
 module.exports = busRouter;
