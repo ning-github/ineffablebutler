@@ -65,25 +65,29 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   }
   // If the user has departure and destinate addresses, get the route
   // options for the departure route
-  GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (options) {
-    
-    console.log(options);
-
+  GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (routes) {
+    console.log("routes:", routes);
     $scope.model.selectRoute = '';
-    $scope.model.routeOptions = options;
-    angular.forEach(options, function (route, i, obj) {
-      Bus.getBusArrivalTimes(route.lines[0][0], route.lines[0][1], route.lines[0][2]).then(function (data) {
+    $scope.model.routeOptions = routes;
+    angular.forEach(routes, function (route, i, obj) {
+      console.log("route:", route);
+      var busNumber = route.lines[0][0];
+      var stopName = route.lines[0][1];
+      var busDirection = route.lines[0][2];
+      console.log("route params:", i, busNumber, stopName);
+      Bus.getBusArrivalTimes(busNumber, stopName, busDirection).then(function (busInfos) {
+        console.log("busInfos:", busInfos.data);
         // Traverse the XML data response from the server to get bus arrival times
-        var busTimes = Bus.traverseXML(data.xml, data.busNumber, data.direction, data.stopName);
+        var busTimes = Bus.traverseXML(busInfos.data.xml, busInfos.data.busNumber, busInfos.data.direction, busInfos.data.stopName);
         // Add the bus arrival times to the given route object to be displayed in routes.html
-        options.routes[i].arrivalTimes = busTimes;
+        route.arrivalTimes = busTimes;
       }).catch(function (data, status, headers, config) {
         throw 'ERROR: ' + data;
       });
     });
   }, function (error) {
-    alert('Failed: ' + error);
+    console.log('Failed: ' + error);
   });
   // Update the bus arrival times every second
-  $timeout(Bus.getBusArrivalTimes, 1000);
+  // $timeout(Bus.getBusArrivalTimes, 1000);
 }); //end of RoutesController

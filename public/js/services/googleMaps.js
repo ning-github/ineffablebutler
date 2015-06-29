@@ -1,6 +1,22 @@
 muniButlerApp.factory('GoogleMaps', function ($q) {
   var googleMaps = {};
   googleMaps.getRouteOptions = function (from, to) {
+    /*
+    return options = {
+      routes: [{
+        lines: ['38R', '6th Ave & Geary', 'Inbound'],
+        duration: '28 min'
+      },
+      {
+        lines: ['38', '6th Ave & Geary', 'Inbound'],
+        duration: '44 min'
+        }
+      ]
+    }
+
+
+    */
+
     return $q(function (resolve, reject) {
       // Create Google Maps Direction Service object
       var directions = new google.maps.DirectionsService();
@@ -36,10 +52,8 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         }
         // render the directions on the map
         directionsDisplay.setDirections(results);
-        // create an options obj to store direction options returned by Google
-        var options = {};
         // array to store all possible direction route objects
-        options.routes = [];
+        var routes = [];
         // iterate through possible routes to take
         angular.forEach(results.routes, function (route, index, obj) {
           // create an object to store all info related to this route
@@ -73,11 +87,13 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
             }
           }
           // Add route object to options.routes array
-          options.routes.push(routeObj);
+          if (routeObj.lines.length > 0){
+            routes.push(routeObj);
+          }
         });
     
-        if (options.routes.length > 0){
-          resolve(options);
+        if (routes.length > 0){
+          resolve(routes);
         } else {
           reject("No options found");
         }

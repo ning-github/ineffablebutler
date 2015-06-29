@@ -180,6 +180,7 @@ app.get('/api/logout', function (req, res) {
 
 var cleanStopName = function(stopName){
   console.log('in cleanStopName')
+  console.log(stopName);
   var cleaned = stopName.split('');
 
   for (var i = 0; i < cleaned.length; i++){
@@ -235,6 +236,7 @@ var queryRouteDB = function(busNumber, direction, stopName){
 };
 
 app.post('/route/times', function(req, res){
+  console.log('/route/times', req.body);
   var busNumber = req.body.busNumber;
   var stopName = cleanStopName(req.body.stopName);
   var direction = req.body.direction;
