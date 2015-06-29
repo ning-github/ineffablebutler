@@ -19,6 +19,7 @@ muniButlerApp.factory('User', function (Auth) {
 
   // adds routes to the user.routes array
   // home page displays routes in the user.routes array
+  
   user.addRoute = function (obj) {
     var route = {
       id: user.routes.length,

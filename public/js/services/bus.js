@@ -2,9 +2,8 @@ muniButlerApp.factory('Bus', function ($http) {
     
   // Makes a POST request to the server to get XML data from 511 API which gets bus times
   var getBusArrivalTimes = function (busNumber, stopName, direction) {
+    
     // Request route times for the bus from server
-    console.log("stopName:", stopName);
-
     return $http.post('/route/times', {
       busNumber: busNumber,
       stopName: stopName,

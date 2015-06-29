@@ -4,32 +4,36 @@
  ** 
  ** Authors: Danielle Knudson, Albert Tang
  */
+
 muniButlerApp.controller('RoutesController', function ($scope, $location, $timeout, User, GoogleMaps, Bus) {
+  
   /**************
    ** VARIABLES **
    ***************/
+  
   $scope.model = {
     trip: User.trip,
     going: true,
     returning: false,
     routeHeading: 'Departure Route',
-    routeOptions: {},
+    routeOptions: [],
     route: {
       from: User.trip.from,
       to: User.trip.to,
       route: ''
     }
   };
+
   /**************
    ** FUNCTIONS **
    ***************/
-  // Gets route options for the departure/destination addresses provided on home.html
-  // using Google Maps API V3 and Google Maps Direction Service
-  $scope.model.getRouteOptions = '';
+
   // Handles a route selection (click event) on routes.html
   // Will save the departure/return route for the user
   // Redirects to home.html
   $scope.model.selectRoute = function (busNumber, stopName, duration, arrivalTimes) {
+    console.log('in selectRoute');
+
     // the user hasn't selected a departure route
     if ($scope.model.going && !$scope.model.returning) {
       $scope.model.routeHeading = "Departure Route";
@@ -55,9 +59,11 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
       $location.path('/');
     }
   };
+
   /**************
    **** LOGIC ****
    ***************/
+
   // If the user hasn't entered a departure or destination route,
   // the user should be redirected to the home page 
   if (!$scope.model.route.to || !$scope.model.route.from) {
@@ -66,17 +72,13 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // If the user has departure and destinate addresses, get the route
   // options for the departure route
   GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (routes) {
-    console.log("routes:", routes);
     $scope.model.selectRoute = '';
     $scope.model.routeOptions = routes;
     angular.forEach(routes, function (route, i, obj) {
-      console.log("route:", route);
       var busNumber = route.lines[0][0];
       var stopName = route.lines[0][1];
       var busDirection = route.lines[0][2];
-      console.log("route params:", i, busNumber, stopName);
       Bus.getBusArrivalTimes(busNumber, stopName, busDirection).then(function (busInfos) {
-        console.log("busInfos:", busInfos.data);
         // Traverse the XML data response from the server to get bus arrival times
         var busTimes = Bus.traverseXML(busInfos.data.xml, busInfos.data.busNumber, busInfos.data.direction, busInfos.data.stopName);
         // Add the bus arrival times to the given route object to be displayed in routes.html

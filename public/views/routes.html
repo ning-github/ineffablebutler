@@ -15,7 +15,7 @@
       </md-card-content>
     </md-card>
     <h3>{{ model.routeHeading }}</h3>
-    <md-card class="route-option" ng-repeat="route in model.routeOptions track by $index" ng-click="model.selectRoute(route.lines[0][0], route.lines[0][1], route.duration, route.arrivalTimes)">
+<md-card class="route-option" ng-repeat="route in model.routeOptions track by $index" ng-click="console.log('card clicked')">
       <md-card-content>
         <div ng-repeat="lineInfo in route.lines" class="bus-number">{{ lineInfo[0] }}</div>
         <div class="duration">{{ route.duration }}</div>
@@ -27,3 +27,5 @@
     </md-card>
   </md-content>
 </div>
+
+<!-- model.selectRoute(route.lines[0][0], route.lines[0][1], route.duration, route.arrivalTimes) -->
