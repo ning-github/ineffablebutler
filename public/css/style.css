@@ -84,7 +84,6 @@ map {
 /*********************************************************** 
 *********** ROUTE CARDS, ROUTES.HTML, HOME.HTML ************
 ************************************************************/
-
 /*
 ** Bus Number
 */
@@ -105,7 +104,6 @@ div.bus-number {
 div.bus-number:last-child {
   margin-right: 0;
 }
-
 /*
 ** Arrival Time Info
 */
@@ -137,7 +135,6 @@ div.bus-number:last-child {
 div.stop {
   margin-top: 5px;
 }
-
 /*
 ** Bus Stop Location
 */
@@ -148,7 +145,6 @@ div.stop {
   float: right;
   clear: right;
 }
-
 /*
 ** Trip Duration
 */
@@ -156,7 +152,6 @@ div.stop {
 div.duration {
   float: right;
 }
-
 /*
 ** Shared Styles
 */

@@ -17,7 +17,7 @@
       </form>
       <md-button class="md-raised btn submit" ng-click="submit(addressform.$valid)">Go!</md-button>
       <map zoom="18" id="routes-map" class="map-home"></map>
-    <!-- saved routes -->
+      <!-- saved routes -->
     </div>
     <div ng-show='routes.length > 0' class="page-content">
       <p ng-click="newroute = !newroute; msgChange();">{{msg}}</p>
@@ -27,7 +27,8 @@
           <div class="bus-number">{{ route.route[0] }}</div>
           <!-- <div class="arrivalTimes">{{ route.route[3] }}</div> -->
           <div class="duration">{{ route.route[2] }}</div>
-          <div class="arrival-times" ng-show="route.route[3].length > 0">Arriving in <div class="time" ng-repeat="time in route.route[3]">{{ time }}</div> minutes</div>
+          <div class="arrival-times" ng-show="route.route[3].length > 0">Arriving in
+            <div class="time" ng-repeat="time in route.route[3]">{{ time }}</div> minutes</div>
           <div class="arrival-times no-times" ng-show="route.route[3].length === 0">No times available</div>
           <div class="stop">{{ route.route[1] }}</div>
         </md-card-content>
