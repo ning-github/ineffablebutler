@@ -1,0 +1,204 @@
+/* @override 
+	http://localhost:3000/css/style.css */
+
+/*/*********************************************************** 
+*********************** BASIC STYLES ***********************
+************************************************************/
+
+body {
+
+  padding: 20px 50px 50px;
+	color: #5d4f4f;
+}
+
+a {
+  color: #00B7FF;
+  position: relative;
+}
+
+.md-body-2 {
+	color: #CC0066;
+	margin-top: 0;
+}
+
+map {
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+
+.login-logout {
+	float: right;
+}
+.logo-name {
+	text-transform: uppercase;
+	letter-spacing: -0.05em;
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+md-content.ng-scope.md-default-theme {
+	padding: 0;
+}
+
+/*********************************************************** 
+************************** BUTTONS *************************
+************************************************************
+** NOTES:  
+** - .md-raised and .md-primary are Angular Material classes
+** - .btn is MuniButler Style
+************************************************************
+************************************************************/
+.logo {
+width: 96px;
+}
+
+
+.md-raised.md-primary.btn,
+.md-raised {
+  width: 180px;
+  position: relative;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.md-raised#go {
+ width: 100%;
+	background-color: #CC0066;
+	color: white;
+}
+
+.md-raised.md-primary.btn.login.google,
+.md-raised.md-primary.btn.login.facebook,
+.md-raised.md-primary.btn.logout {
+  background-color: silver;
+  color: #FFFFFF;
+}
+
+h3 {
+	text-transform: uppercase;
+	color: #CC0066;
+}
+
+.md-raised.btn.submit {
+  float: right;
+  margin-bottom: 20px;
+  margin-right: 0;
+  top: -10px;
+}
+/*********************************************************** 
+*********************** PAGE CONTENT ***********************
+************************************************************/
+
+.page-content {
+  margin: 0 auto;
+}
+
+.page-content h1 {
+  clear: both;
+}
+
+.route-option:hover {
+  background: #ebf2fb;
+}
+
+/********************************************************** 
+*************** TRIP DETAILS, ROUTES.HTML *****************
+***********************************************************/
+
+.address-label {
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  clear: both;
+}
+
+.address {
+  margin-top: 5px;
+  font-size: 13px;
+}
+/*********************************************************** 
+*********** ROUTE CARDS, ROUTES.HTML, HOME.HTML ************
+************************************************************/
+/*
+** Bus Number
+*/
+
+.my-routes,
+.route-option {
+  cursor: pointer;
+}
+
+div.bus-number {
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 5px;
+  padding: 2px 5px;
+  color: #FFFFFF;
+  background: #3079DA;
+  border-radius: 2px;
+  border: 1px solid #2369c5;
+  text-shadow: 1px 0 #000000;
+  float: left;
+}
+
+div.bus-number:last-child {
+  margin-right: 0;
+}
+/*
+** Arrival Time Info
+*/
+
+.arrival-times {
+  clear: both;
+  font-size: 12px;
+  display: inline-block;
+  float: left;
+}
+
+.arrival-times.no-times {
+  color: #999999;
+}
+
+.arrival-times .time {
+  display: inline-block;
+  margin-right: 6px;
+  background: #dde9f9;
+  border-radius: 2px;
+  padding: 1px 3px;
+}
+
+.arrival-times .time:last-child {
+  margin-right: 0px;
+}
+
+.arrival-times,
+div.stop {
+  margin-top: 5px;
+}
+/*
+** Bus Stop Location
+*/
+
+div.stop {
+  font-size: 12px;
+  color: #555555;
+  float: right;
+  clear: right;
+}
+/*
+** Trip Duration
+*/
+
+div.duration {
+  float: right;
+}
+
+/*
+** Shared Styles
+*/
+
+div.bus-number,
+div.duration {
+  padding: 5px;
+}*/

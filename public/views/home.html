@@ -1,0 +1,38 @@
+  <md-content layout-padding layout-sm="column">
+    <!-- if user has no saved routes, show input form -->
+    <div ng-show="routes.length === 0 || addnewroute">
+      <form name="addressform" ng-submit="enter" novalidate>
+        <!-- from address, which searches for current address -->
+        <md-input-container md-no-float>
+          <label>From</label>
+          <input class="autocomplete" type="text" ng-model="user.from" placeholder="" required>
+        </md-input-container>
+        <!-- to address -->
+        <md-input-container md-no-float>
+          <label>To</label>
+          <input class="autocomplete" type="text" ng-model="user.to" placeholder="" required>
+        </md-input-container>
+      </form>
+      <md-button class="md-raised btn submit" ng-click="submit(addressform.$valid)" id="go">Go!</md-button>
+      <!-- map -->
+      <map zoom="18" id="routes-map" class="map-home"></map>
+      <!-- saved routes -->
+    </div>
+    <!-- if user has saved routes, hide input form -->
+    <div ng-show='routes.length > 0' class="page-content">
+      <!-- button to show input form to add new route -->
+      <p ng-click="addnewroute = !addnewroute; msgChange();">{{msg}}</p>
+      <!-- saved routes -->
+      <h3>My Routes</h3>
+      <md-card class="my-routes" ng-click="showOptions(route.route)" ng-repeat="route in routes | filter:search | orderBy:'-id'">
+        <md-card-content>
+          <div class="bus-number">{{ route.route[0] }}</div>
+          <div class="duration">{{ route.route[2] }}</div>
+          <div class="arrival-times" ng-show="route.route[3].length > 0">Arriving in
+            <div class="time" ng-repeat="time in route.route[3]">{{ time }}</div> minutes</div>
+          <div class="arrival-times no-times" ng-show="route.route[3].length === 0">No times available</div>
+          <div class="stop">{{ route.route[1] }}</div>
+        </md-card-content>
+      </md-card>
+    </div>
+  </md-content>
