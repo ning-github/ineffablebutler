@@ -20,6 +20,7 @@ Fast, reliable MUNI times for your commute to work and home.
     1. [Product Roadmap](#product-roadmap)
 1. [Team](#team)
 1. [Contributing](#contributing)
+1. [Deployment](#deployment)
 
 ## Requirements
 
@@ -77,3 +78,11 @@ We need your help to build out its feature set!
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/ineffablebutler/ineffablebutler/master/contributing.md) for contribution guidelines.
+
+## Deployment
+
+Use grunt deploy to:
+  replace lines in the HTML
+  replace lines in GoogleConfig
+Use grunt to:
+  concat, cssmin, and uglify
