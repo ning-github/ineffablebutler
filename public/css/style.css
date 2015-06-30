@@ -6,7 +6,6 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   position: relative;
-  cursor: pointer;
 }
 
 a {
@@ -98,6 +97,11 @@ map {
 /*
 ** Bus Number
 */
+
+.my-routes,
+.route-option {
+  cursor: pointer;
+}
 
 div.bus-number {
   font-weight: 600;

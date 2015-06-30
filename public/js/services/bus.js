@@ -14,6 +14,22 @@ muniButlerApp.factory('Bus', function ($http) {
 
   };
 
+  var getBusesArrivalTimes = function(routes){
+    angular.forEach(routes, function (route, i, obj) {
+      var busNumber = route.lines[0][0];
+      var stopName = route.lines[0][1];
+      var busDirection = route.lines[0][2];
+      getBusArrivalTimes(busNumber, stopName, busDirection).then(function (busInfos) {
+        // Traverse the XML data response from the server to get bus arrival times
+        var busTimes = traverseXML(busInfos.data.xml, busInfos.data.busNumber, busInfos.data.direction, busInfos.data.stopName);
+        // Add the bus arrival times to the given route object to be displayed in routes.html
+        route.arrivalTimes = busTimes;
+      }).catch(function (data, status, headers, config) {
+        throw 'ERROR: ' + data;
+      });
+    });
+  };
+
   // Traverses XML data returned from server which holds bus arrival times  
   var traverseXML = function (xml, busNumber, direction, stopName) {
 
@@ -89,6 +105,7 @@ muniButlerApp.factory('Bus', function ($http) {
 
   return {
     getBusArrivalTimes: getBusArrivalTimes,
+    getBusesArrivalTimes: getBusesArrivalTimes,
     traverseXML: traverseXML
   };
 
