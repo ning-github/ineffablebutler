@@ -1,3 +1,13 @@
+/*
+ ** Bus.js
+ ** Service with methods to call muniButler API to get route information in the form of XML,
+ ** traverse XML, and return bus arrival times for a given busNumber, stopName, and direction.
+ ** 
+ ** Authors: Danielle Knudson, François Romain
+ */
+
+// Makes a call to muniButler API to get XML bus arrival time data 
+// for a given busNumber, stopName, and direction
 muniButlerApp.factory('Bus', function ($http) {
     
   // Makes a POST request to the server to get XML data from 511 API which gets bus times
@@ -14,6 +24,7 @@ muniButlerApp.factory('Bus', function ($http) {
 
   };
 
+  // Iterates over routes returned by getRouteOptions() in the GoogleMaps serice
   var getBusesArrivalTimes = function(routes){
     angular.forEach(routes, function (route, i, obj) {
       var busNumber = route.lines[0][0];

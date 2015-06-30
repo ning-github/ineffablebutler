@@ -31,7 +31,6 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // Handles a route selection (click event) on routes.html
   // Will save the departure/return route for the user
   // Redirects to home.html
-
   $scope.model.selectRoute = function (route) {
     console.log(route);
 
