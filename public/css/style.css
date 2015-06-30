@@ -1,11 +1,14 @@
+/* @override 
+	http://localhost:3000/css/style.css */
+
 /*/*********************************************************** 
 *********************** BASIC STYLES ***********************
 ************************************************************/
 
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  position: relative;
+
+  padding: 20px 50px 50px;
+	color: #5d4f4f;
 }
 
 a {
@@ -13,10 +16,29 @@ a {
   position: relative;
 }
 
+.md-body-2 {
+	color: #CC0066;
+	margin-top: 0;
+}
+
 map {
   width: 100%;
   height: 300px;
   position: relative;
+}
+
+.login-logout {
+	float: right;
+}
+.logo-name {
+	text-transform: uppercase;
+	letter-spacing: -0.05em;
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+md-content.ng-scope.md-default-theme {
+	padding: 0;
 }
 
 /*********************************************************** 
@@ -27,12 +49,12 @@ map {
 ** - .btn is MuniButler Style
 ************************************************************
 ************************************************************/
+.logo {
+	
+width: 96px;
 
-.btn-container.login-logout {
-  position: absolute;
-  top: 20px;
-  right: 50px;
 }
+
 
 .md-raised.md-primary.btn,
 .md-raised {
@@ -44,15 +66,22 @@ map {
 }
 
 .md-raised#go {
-  width: 60px;
+ width: 100%;
+	background-color: #CC0066;
+	color: white;
 }
 
 .md-raised.md-primary.btn.login.google {
-  background-color: #D23E2A;
+  background-color: silver;
+}
+
+h3 {
+	text-transform: uppercase;
+	color: #CC0066;
 }
 
 .md-raised.md-primary.btn.login.facebook {
-  background-color: #435F9C;
+  background-color: silver;
 }
 
 .md-raised.btn.submit {
@@ -66,7 +95,7 @@ map {
 ************************************************************/
 
 .page-content {
-  margin: 40px auto;
+  margin: 0 auto;
 }
 
 .page-content h1 {
