@@ -1,19 +1,28 @@
+// server
 var express = require('express');
 var path = require('path');
 var http = require('http');
 var request = require('request');
+
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+// auth reqs
 var session = require('express-session');
 var passport = require('passport');
+
+// database
 var db = require('./config/db');
+
+// routing
 var routes = require('./routes/index');
 var authRouter = require('./routes/auth');
 var userRouter = require('./routes/user');
 var logoutRouter = require('./routes/logout');
 var busRouter = require('./routes/bus');
+
 var app = express();
 var user = {};
 app.use(logger('dev'));
@@ -27,8 +36,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
