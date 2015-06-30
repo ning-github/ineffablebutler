@@ -12,17 +12,14 @@ Fast, reliable MUNI times for your commute to work and home.
 
 ## Table of Contents
 
-1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
+    1. [External APIs](#external-apis)
+    1. [Deployment](#deployment)
     1. [Product Roadmap](#product-roadmap)
 1. [Team](#team)
 1. [Contributing](#contributing)
-
-## Usage
-
-> Some usage instructions
 
 ## Requirements
 
@@ -38,6 +35,22 @@ From within the root directory:
 ```sh
 npm install
 ```
+
+## External APIs
+
+- Google Maps API: [https://developers.google.com/maps/documentation/javascript/?hl=de](https://developers.google.com/maps/documentation/javascript/?hl=de)
+- 511 API: [http://www.511.org/developer-resources_transit-api.asp](http://www.511.org/developer-resources_transit-api.asp)
+
+
+### Deployment
+Grunt handles most of the deployment:
+  grunt default:
+    Concatenates, css minifies, and uglifies, accounting for variable names in Angular.
+  grunt deploy:
+    Replaces text in config/googleConfig as production and deployment keys should be different.
+    Replaces HTML in public/index.html as production and deployment file references should be different.
+Both the server (app.js) and the database server (config/db.js) utilize the global variable process.env
+The Procfile is used for Heroku deployment.
 
 ### Product Roadmap
 
