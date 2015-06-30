@@ -17,7 +17,12 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
 
     */
 
+    console.log(from, to);
+
     return $q(function (resolve, reject) {
+
+      console.log(from, to);
+
       // Create Google Maps Direction Service object
       var directions = new google.maps.DirectionsService();
       // Create the Directions Request Object needed to request directions from Google Maps API 
@@ -68,12 +73,14 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
           var steps = route.legs['0'].steps;
           for (var key in steps) {
             if (steps[key].travel_mode === "TRANSIT") {
-              var busNumber = route.legs['0'].steps[key].transit.line.short_name,
-                stopName = route.legs['0'].steps[key].transit.departure_stop.name;
+              var busNumber = route.legs['0'].steps[key].transit.line.short_name;
+              var stopName = route.legs['0'].steps[key].transit.departure_stop.name;
+              
               // Find out if the bus is heading 'Inbound' or 'Outbound'
-              var arrivalLocation = route.legs['0'].steps[key].transit.arrival_stop.location.F
-              departureLocation = route.legs['0'].steps[key].transit.departure_stop.location.F,
-                direction = '';
+              var arrivalLocation = route.legs['0'].steps[key].transit.arrival_stop.location.F;
+              var departureLocation = route.legs['0'].steps[key].transit.departure_stop.location.F;
+              var direction = '';
+
               if (arrivalLocation > departureLocation) {
                 direction = "Inbound";
               } else {

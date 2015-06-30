@@ -31,6 +31,7 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // Handles a route selection (click event) on routes.html
   // Will save the departure/return route for the user
   // Redirects to home.html
+
   $scope.model.selectRoute = function (route) {
     console.log(route);
 
@@ -51,7 +52,14 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
       $scope.model.returning = true;
       // get the route options for the returning route
       // by flipping the departure/destination addresses
-      GoogleMaps.getRouteOptions(User.trip['to'], User.trip['from']);
+
+      GoogleMaps.getRouteOptions(User.trip['to'], User.trip['from']).then(function (routes) {
+        $scope.model.routeOptions = routes;
+        Bus.getBusesArrivalTimes(routes); 
+      }, function (error) {
+        console.log('Failed: ' + error);
+      });
+
       // the user has selected the departure and is now selecting the return route
     } else if (!$scope.model.going && $scope.model.returning) {
       $scope.model.route.route = [busNumber, stopName, duration, arrivalTimes];
@@ -78,22 +86,11 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // options for the departure route
   GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (routes) {
     $scope.model.routeOptions = routes;
-    angular.forEach(routes, function (route, i, obj) {
-      var busNumber = route.lines[0][0];
-      var stopName = route.lines[0][1];
-      var busDirection = route.lines[0][2];
-      Bus.getBusArrivalTimes(busNumber, stopName, busDirection).then(function (busInfos) {
-        // Traverse the XML data response from the server to get bus arrival times
-        var busTimes = Bus.traverseXML(busInfos.data.xml, busInfos.data.busNumber, busInfos.data.direction, busInfos.data.stopName);
-        // Add the bus arrival times to the given route object to be displayed in routes.html
-        route.arrivalTimes = busTimes;
-      }).catch(function (data, status, headers, config) {
-        throw 'ERROR: ' + data;
-      });
-    });
+    Bus.getBusesArrivalTimes(routes); 
   }, function (error) {
     console.log('Failed: ' + error);
   });
   // Update the bus arrival times every second
   // $timeout(Bus.getBusArrivalTimes, 1000);
 }); //end of RoutesController
+
