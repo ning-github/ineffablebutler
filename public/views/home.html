@@ -1,6 +1,9 @@
   <md-content layout-padding layout-sm="column">
-    <!-- if user has no saved routes, show input form -->
-    <div ng-show="routes.length === 0 || addnewroute">
+
+    <!-- using ng-show that hinges on if you have any stored routes OR clicked to "Add new route!"-->
+
+    <!-- INPUT FORM: if user has no saved routes, show input form -->
+    <div ng-show="routes.length === 0 || addnewroute">  
       <form name="addressform" ng-submit="enter" novalidate>
         <!-- from address, which searches for current address -->
         <md-input-container md-no-float>
@@ -18,7 +21,9 @@
       <map zoom="18" id="routes-map" class="map-home"></map>
       <!-- saved routes -->
     </div>
-    <!-- if user has saved routes, hide input form -->
+
+
+    <!-- MY ROUTES: if user has saved routes, hide input form -->
     <div ng-show='routes.length > 0' class="page-content">
       <!-- button to show input form to add new route -->
       <p ng-click="addnewroute = !addnewroute; msgChange();">{{msg}}</p>
@@ -35,4 +40,7 @@
         </md-card-content>
       </md-card>
     </div>
+
+
+
   </md-content>
