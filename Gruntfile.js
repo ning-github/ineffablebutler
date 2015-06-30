@@ -30,7 +30,7 @@ module.exports = function(grunt) {
           "public/js/services/user.js",
           "public/js/services/autocomplete.js",
           "public/js/services/googleMaps.js",
-          "public/js/services/fiveEleven.js",
+          "public/js/services/bus.js",
           "public/js/controllers/LogController.js",
           "public/js/controllers/HomeController.js",
           "public/js/controllers/RoutesController.js"
