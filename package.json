@@ -19,6 +19,7 @@
     "morgan": "~1.5.3",
     "oauth2-server": "^2.4.0",
     "passport": "^0.2.2",
+    "passport-facebook": "^2.0.0",
     "passport-google-oauth": "^0.2.0",
     "prettyjson": "^1.1.2",
     "request": "^2.58.0",
@@ -44,7 +45,7 @@
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-cssmin": "^0.12.3",
     "grunt-contrib-uglify": "^0.9.1",
-    "grunt-string-replace": "^1.2.0",
     "grunt-usemin": "^3.0.0"
   }
 }
+
