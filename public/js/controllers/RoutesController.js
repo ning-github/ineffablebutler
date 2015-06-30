@@ -83,13 +83,14 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   }
   // If the user has departure and destinate addresses, get the route
   // options for the departure route
-  GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (routes) {
-    $scope.model.routeOptions = routes;
-    Bus.getBusesArrivalTimes(routes); 
-  }, function (error) {
-    console.log('Failed: ' + error);
+  $timeout(function(){
+    GoogleMaps.getRouteOptions(User.trip.from, User.trip.to).then(function (routes) {
+      $scope.model.routeOptions = routes;
+      Bus.getBusesArrivalTimes(routes); 
+    }, function (error) {
+      console.log('Failed: ' + error);
+    });
   });
   // Update the bus arrival times every second
-  // $timeout(Bus.getBusArrivalTimes, 1000);
 }); //end of RoutesController
 
