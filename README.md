@@ -24,9 +24,6 @@ Fast, reliable MUNI times for your commute to work and home.
 
 > Some usage instructions
 
-## Product Roadmap
-
-
 ## Requirements
 
 - Node 0.10.x
@@ -42,7 +39,7 @@ From within the root directory:
 npm install
 ```
 
-### Roadmap
+### Product Roadmap
 
 View the project roadmap [here](https://github.com/ineffablebutler/ineffablebutler/issues)
 
