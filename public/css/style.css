@@ -142,6 +142,22 @@ div.bus-number {
   float: left;
 }
 
+div.bus-source, div.bus-destination {
+  display: inline-block;
+  float: left;
+  font-size: 12px;
+  position: relative;
+  top: 8px;
+}
+
+div.bus-source {
+  margin-right: 15px;
+}
+
+div.bus-destination {
+  margin-left: 10px;
+}
+
 div.bus-number:last-child {
   margin-right: 0;
 }

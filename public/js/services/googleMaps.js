@@ -5,24 +5,23 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
   // directions results on the map of routes.html
   googleMaps.directionsDisplay = new google.maps.DirectionsRenderer();
 
+  googleMaps.resetMap = function(mapOptions) {
+    // Create the map options object to set map settings, or use default (San Francisco)
+    mapOptions = mapOptions || {zoom: 18, center: new google.maps.LatLng(37.783724, -122.408978)};
+
+    // Create the map with the mapOptions object
+    var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
+    googleMaps.directionsDisplay.setMap(map);
+  };
+
+  // Attaches map to 'route-map' element given mapOptions and directions results
+  googleMaps.renderNewMap = function(directionsResults) {
+    // render the directions on the map
+    googleMaps.directionsDisplay.setDirections(directionsResults);
+  };
+
   googleMaps.getRouteOptions = function (from, to) {
-    // return options = {
-    //   routes: [{
-    //     lines: ['38R', '6th Ave & Geary', 'Inbound'],
-    //     duration: '28 min'
-    //   },
-    //   {
-    //     lines: ['38', '6th Ave & Geary', 'Inbound'],
-    //     duration: '44 min'
-    //     }
-    //   ]
-    // }
-
-    console.log(from, to);
-
     return $q(function (resolve, reject) {
-
-      console.log(from, to);
 
       // Create Google Maps Direction Service object
       var directions = new google.maps.DirectionsService();
@@ -41,25 +40,18 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         avoidTolls: false
       };
 
+      // resets map
+      googleMaps.resetMap();
 
-
-      // Create the map options object to set map settings
-      var mapOptions = {
-        zoom: 18,
-        center: new google.maps.LatLng(37.783724, -122.408978)
-      };
-      // Create the map with the mapOptions object
-      var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
-      googleMaps.directionsDisplay.setMap(map);
       // Make the call to get the route options from Google Maps API 
       directions.route(directionsRequest, function (results, status) {
+        console.log('THE RESULTS ARE HERE: ', results);
         if (status !== "OK") {
           throw status;
         }
-        // render the directions on the map
-        googleMaps.directionsDisplay.setDirections(results);
 
-
+        // renders the map, see function above
+        googleMaps.renderNewMap(results);
 
         // array to store all possible direction route objects
         var routes = [];
@@ -70,6 +62,7 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
           var routeObj = {};
           // define the array to store tuples of bus line numbers, stop names, and directions 
           // for the given route
+          routeObj.googleRouteObj = route;
           routeObj.lines = [];
           routeObj.duration = route.legs['0'].duration.text;
           // iterate over the steps in each route to find the bus line(s)

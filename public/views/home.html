@@ -3,7 +3,7 @@
     <!-- this view uses ng-show that hinges on if you have any stored routes OR clicked to "Add new route!"-->
 
     <!-- INPUT FORM: if user has no saved routes, show input form -->
-    <div ng-show="empty || addnewroute">  
+    <div ng-show="empty || addnewroute || showMap">  
       <form name="addressform" ng-submit="enter" novalidate>
         <!-- from address, which searches for current address -->
         <md-input-container md-no-float>
@@ -26,14 +26,16 @@
     <!-- MY ROUTES: if user has saved routes, hide input form -->
     <div ng-show='!empty' class="page-content">
       <!-- button to show input form to add new route -->
-      <p ng-click="addnewroute = !addnewroute; msgChange();">{{msg}}</p>
+      <p ng-click="addnewroute = !addnewroute; showMap = false; msgChange();">{{msg}}</p>
       <!-- saved routes -->
       <h3>My Routes</h3>
       <!-- NOTE: showOptions doesn't do anything -->
-      <md-card class="my-routes" ng-click="showOptions(route.route)" ng-repeat="(routeId, route) in routes | filter:search | orderBy:'-id'">
+      <md-card class="my-routes" ng-click="showOptions(route)" ng-repeat="(routeId, route) in routes | filter:search | orderBy:'-id'">
         <button ng-click="remove(route)">Remove</button>
         <md-card-content>
+          <div class="bus-source">{{ route.from.split(',')[0] }}</div>
           <div class="bus-number" ng-repeat = "busNumber in route.route[0]">{{ busNumber[0] }}</div>
+          <div class="bus-destination">{{ route.to.split(',')[0] }}</div>
           <!-- TODO: duration. style with different color depending on how long -->
           <div class="duration">{{ route.route[2] }}</div> 
           <div class="arrival-times" ng-show="route.route[3].length > 0">Arriving in
