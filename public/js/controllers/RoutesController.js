@@ -39,7 +39,7 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // Will save the departure/return route for the user
   // Redirects to home.html
   $scope.model.selectRoute = function (route) {
-    console.log(route);
+    console.log('THIS IS THE ROUTE', route);
 
     // var busNumber = route.lines[0][0];
     var busNumber = [];
@@ -56,7 +56,7 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
     if ($scope.model.going && !$scope.model.returning) {
       $scope.model.routeHeading = "Departure Route";
       $scope.model.route.route = [busNumber, stopName, duration, arrivalTimes];
-      User.addRoute($scope.model.route);
+      User.addRoute($scope.model.route, route.googleRouteObj);
       // change heading for when the user selects return route following
       // the selection of the departure route
       $scope.model.routeHeading = "Return Route";
@@ -82,7 +82,7 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
       $scope.model.route.to = temp;
 
       // add return route
-      User.addRoute($scope.model.route);
+      User.addRoute($scope.model.route, route.googleRouteObj);
 
       // reset to and from back to original state
       $scope.model.route.from = User.trip.from;

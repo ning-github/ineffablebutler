@@ -5,24 +5,12 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
   // directions results on the map of routes.html
   googleMaps.directionsDisplay = new google.maps.DirectionsRenderer();
 
+  googleMaps.renderNewMap = function(mapOptions) {
+
+  };
+
   googleMaps.getRouteOptions = function (from, to) {
-    // return options = {
-    //   routes: [{
-    //     lines: ['38R', '6th Ave & Geary', 'Inbound'],
-    //     duration: '28 min'
-    //   },
-    //   {
-    //     lines: ['38', '6th Ave & Geary', 'Inbound'],
-    //     duration: '44 min'
-    //     }
-    //   ]
-    // }
-
-    console.log(from, to);
-
     return $q(function (resolve, reject) {
-
-      console.log(from, to);
 
       // Create Google Maps Direction Service object
       var directions = new google.maps.DirectionsService();
@@ -40,8 +28,6 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         avoidHighways: false,
         avoidTolls: false
       };
-
-
 
       // Create the map options object to set map settings
       var mapOptions = {
@@ -71,6 +57,7 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
           var routeObj = {};
           // define the array to store tuples of bus line numbers, stop names, and directions 
           // for the given route
+          routeObj.googleRouteObj = route;
           routeObj.lines = [];
           routeObj.duration = route.legs['0'].duration.text;
           // iterate over the steps in each route to find the bus line(s)

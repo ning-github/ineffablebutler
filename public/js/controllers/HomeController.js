@@ -73,7 +73,20 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   };
 
   $scope.showOptions = function(savedRoute) {
-    console.log(savedRoute);
+    var googleFormattedObject = {request: {travelMode: "TRANSIT"}, routes: [savedRoute.googleRouteObj]};
+
+    var mapOptions = {
+      zoom: 18,
+      center: new google.maps.LatLng(37.783724, -122.408978)
+    };
+    // Create the map with the mapOptions object
+    var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
+    GoogleMaps.directionsDisplay.setMap(map);
+
+    $scope.addnewroute = true;
+    GoogleMaps.directionsDisplay.setDirections(googleFormattedObject);
+    // NG-SHOW MAP, USE GOOGLE ROUTE OBJ TO POPULATE
+    console.log(savedRoute.googleRouteObj);
   };
 
   // =================================

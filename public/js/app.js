@@ -17,5 +17,5 @@ var muniButlerApp = angular.module('muniButler', ['ngMap', 'ngResource', 'ngRout
     })
     .otherwise({redirectTo: '/'});
     // Your code here
-})
+});
 
