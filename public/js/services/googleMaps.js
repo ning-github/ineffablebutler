@@ -1,12 +1,18 @@
 muniButlerApp.factory('GoogleMaps', function ($q) {
   var googleMaps = {};
 
-  // Create the Google Maps Directions Renderer object which will be used to display 
-  // directions results on the map of routes.html
-  googleMaps.directionsDisplay = new google.maps.DirectionsRenderer();
+  // Attaches map to 'route-map' element given mapOptions and directions results
+  googleMaps.renderNewMap = function(mapOptions, directionsResults) {
+    // Create the Google Maps Directions Renderer object which will be used to display 
+    // directions results on the map of routes.html
+    var directionsDisplay = new google.maps.DirectionsRenderer();
 
-  googleMaps.renderNewMap = function(mapOptions) {
+    // Create the map with the mapOptions object
+    var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
+    directionsDisplay.setMap(map);
 
+    // render the directions on the map
+    directionsDisplay.setDirections(directionsResults);
   };
 
   googleMaps.getRouteOptions = function (from, to) {
@@ -34,19 +40,16 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         zoom: 18,
         center: new google.maps.LatLng(37.783724, -122.408978)
       };
-      // Create the map with the mapOptions object
-      var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
-      googleMaps.directionsDisplay.setMap(map);
+
       // Make the call to get the route options from Google Maps API 
       directions.route(directionsRequest, function (results, status) {
         console.log('THE RESULTS ARE HERE: ', results);
         if (status !== "OK") {
           throw status;
         }
-        // render the directions on the map
-        googleMaps.directionsDisplay.setDirections(results);
 
-
+        // renders the map, see function above
+        googleMaps.renderNewMap(mapOptions, results);
 
         // array to store all possible direction route objects
         var routes = [];
