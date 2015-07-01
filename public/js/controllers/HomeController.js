@@ -4,6 +4,7 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
 
   // grab any saved route information from the User factory
   $scope.routes = User.routes;
+  $scope.empty = Object.keys(User.routes).length === 0;
 
   // does the user want to add a new route?
   $scope.addnewroute = false;
@@ -32,6 +33,11 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
     // the RoutesController at /routes will handle this information
     $location.path('/routes');
   };
+
+  $scope.remove = function(route){
+    console.log(route);
+    User.removeRoute(route.id);
+  }
 
   // change latitude/longitude into actual addresses and update the from address
   function success(position) {

@@ -1,7 +1,12 @@
 muniButlerApp.factory('User', function (Auth) {
   var user = {};
 
-  user.routes = [];
+  // user.routes = [];
+
+
+
+  user.routes = {};
+  var index = 0;
   // user.trip is the current route the user is creating
   user.trip = {
     from: '',
@@ -22,13 +27,15 @@ muniButlerApp.factory('User', function (Auth) {
   
   user.addRoute = function (obj) {
     var route = {
-      id: user.routes.length,
+      id: index,
       from: obj.from,
       to: obj.to,
       route: obj.route
     };
 
-    user.routes.push(route);
+    user.routes[index]= route;
+    index++;
+
     console.log("route", Auth);
     if (user.id) {
       console.log('adding route');
@@ -37,8 +44,12 @@ muniButlerApp.factory('User', function (Auth) {
     return route;
   };
 
-  user.removeRoute = function (id) {
-    var removed = user.routes.splice(id, 1);
+  user.removeRoute = function (routeId) {
+    // var removed = user.routes.splice(routeId, 1);
+    var removed = user.routes[routeId];
+    delete user.routes[routeId];
+    console.log('route removed!!');
+    console.log('user.routes: ', user.routes);
     if (user.id) {
       Auth.update(user);
     }
