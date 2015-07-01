@@ -13,7 +13,6 @@ module.exports = function(grunt) {
       },
       lib: {
         src: [
-          // "public/lib/d3.js",
           "public/lib/angular.min.js",
           "public/lib/angular-route.min.js",
           "public/lib/angular-resource.min.js",
