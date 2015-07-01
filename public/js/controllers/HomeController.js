@@ -11,8 +11,8 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   // button text
   $scope.msg = "Add new route!";
   $scope.msgChange = function () {
-    if ($scope.addnewroute) $scope.msg = "Cancel";
-    else $scope.msg = "Add new route!";
+    if ($scope.addnewroute) { $scope.msg = "Cancel"; }
+    else { $scope.msg = "Add new route!"; }
   };
 
   // object for temporary user information
@@ -24,7 +24,7 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   $scope.enter = false;
   // submit function
   $scope.submit = function (validation) {
-    if (!validation) return;
+    if (!validation) { return; }
     // update User information in the User factory
     User.trip = {
       to: $scope.user.to,
@@ -37,7 +37,7 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   $scope.remove = function(route){
     console.log(route);
     User.removeRoute(route.id);
-  }
+  };
 
   // change latitude/longitude into actual addresses and update the from address
   function success(position) {
@@ -70,6 +70,10 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
     };
     var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
     directionsDisplay.setMap(map);
+  };
+
+  $scope.showOptions = function(savedRoute) {
+    console.log(savedRoute);
   };
 
   // =================================

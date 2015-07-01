@@ -30,7 +30,7 @@
       <!-- saved routes -->
       <h3>My Routes</h3>
       <!-- NOTE: showOptions doesn't do anything -->
-      <md-card class="my-routes" ng-click="showOptions(route.route)" ng-repeat="(routeId, route) in routes | filter:search | orderBy:'-id'">
+      <md-card class="my-routes" ng-click="showOptions(route)" ng-repeat="(routeId, route) in routes | filter:search | orderBy:'-id'">
         <button ng-click="remove(route)">Remove</button>
         <md-card-content>
           <div class="bus-source">{{ route.from.split(',')[0] }}</div>
