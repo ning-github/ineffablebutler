@@ -76,6 +76,7 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   };
 
   $scope.showOptions = function(savedRoute) {
+    console.log('THE SAVED ROUTE IS AS FOLLOWS: ', savedRoute);
     var googleFormattedObject = {request: {travelMode: "TRANSIT"}, routes: [savedRoute.googleRouteObj]};
 
     var mapOptions = {

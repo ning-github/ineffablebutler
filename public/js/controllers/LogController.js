@@ -17,6 +17,7 @@ muniButlerApp.controller('LogController', function ($scope, Auth, User) {
         User.displayName = resp.data.displayName;
         User.id = resp.data.id;
         User.routes = resp.data.routes;
+        console.log('Upon login, user.routes are: ', User.routes);
         return;
       })
       // if no, fill in the possible log in options
