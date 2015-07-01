@@ -4,11 +4,6 @@
 
 Fast, reliable MUNI times for your commute to work and home.
 
-## Team
-
-  - __Product Owner__: Dani Knudson
-  - __Scrum Master__: Albert Tang
-  - __Development Team Members__: Albert Tang, Dani Knudson, Eric Kao, François Romain
 
 ## Table of Contents
 
@@ -72,6 +67,10 @@ We need your help to build out its feature set!
 - Create a schedule feature which allows users to see their routes at specific times, e.g., M-F ~8 AM a user can see their favorite route to work.
 - Use http://ionicframework.com/ to create a better mobile experience
 
+## Team
+
+  - __Development Team Members__: Albert Tang, Dani Knudson, Eric Kao, François Romain
+  - __Legacy Development__: Brett Kan, Chris Staton, Josh Turner, Ning Xia
 
 ## Contributing
 
