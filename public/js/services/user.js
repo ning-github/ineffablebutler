@@ -6,7 +6,7 @@ muniButlerApp.factory('User', function (Auth) {
 
 
   user.routes = {};
-  var size = 0;
+  var index = 0;
   // user.trip is the current route the user is creating
   user.trip = {
     from: '',
@@ -27,14 +27,14 @@ muniButlerApp.factory('User', function (Auth) {
   
   user.addRoute = function (obj) {
     var route = {
-      id: size,
+      id: index,
       from: obj.from,
       to: obj.to,
       route: obj.route
     };
 
-    user.routes[size]= route;
-    size++;
+    user.routes[index]= route;
+    index++;
 
     console.log("route", Auth);
     if (user.id) {
