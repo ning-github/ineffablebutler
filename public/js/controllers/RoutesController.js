@@ -34,7 +34,13 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   $scope.model.selectRoute = function (route) {
     console.log(route);
 
-    var busNumber = route.lines[0][0];
+    // var busNumber = route.lines[0][0];
+    var busNumber = [];
+
+    for (var i = 0; i < route.lines.length; i++) {
+      busNumber.push(route.lines[i]);
+    };
+
     var stopName = route.lines[0][1];
     var duration = route.duration;
     var arrivalTimes = route.arrivalTimes;
