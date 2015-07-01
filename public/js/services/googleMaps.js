@@ -1,18 +1,23 @@
 muniButlerApp.factory('GoogleMaps', function ($q) {
   var googleMaps = {};
 
-  // Attaches map to 'route-map' element given mapOptions and directions results
-  googleMaps.renderNewMap = function(mapOptions, directionsResults) {
-    // Create the Google Maps Directions Renderer object which will be used to display 
-    // directions results on the map of routes.html
-    var directionsDisplay = new google.maps.DirectionsRenderer();
+  // Create the Google Maps Directions Renderer object which will be used to display 
+  // directions results on the map of routes.html
+  googleMaps.directionsDisplay = new google.maps.DirectionsRenderer();
+
+  googleMaps.resetMap = function(mapOptions) {
+    // Create the map options object to set map settings, or use default (San Francisco)
+    mapOptions = mapOptions || {zoom: 18, center: new google.maps.LatLng(37.783724, -122.408978)};
 
     // Create the map with the mapOptions object
     var map = new google.maps.Map(document.getElementById('routes-map'), mapOptions);
-    directionsDisplay.setMap(map);
+    googleMaps.directionsDisplay.setMap(map);
+  };
 
+  // Attaches map to 'route-map' element given mapOptions and directions results
+  googleMaps.renderNewMap = function(directionsResults) {
     // render the directions on the map
-    directionsDisplay.setDirections(directionsResults);
+    googleMaps.directionsDisplay.setDirections(directionsResults);
   };
 
   googleMaps.getRouteOptions = function (from, to) {
@@ -35,11 +40,8 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         avoidTolls: false
       };
 
-      // Create the map options object to set map settings
-      var mapOptions = {
-        zoom: 18,
-        center: new google.maps.LatLng(37.783724, -122.408978)
-      };
+      // resets map
+      googleMaps.resetMap();
 
       // Make the call to get the route options from Google Maps API 
       directions.route(directionsRequest, function (results, status) {
@@ -49,7 +51,7 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
         }
 
         // renders the map, see function above
-        googleMaps.renderNewMap(mapOptions, results);
+        googleMaps.renderNewMap(results);
 
         // array to store all possible direction route objects
         var routes = [];

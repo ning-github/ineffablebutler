@@ -8,6 +8,9 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
 
   // does the user want to add a new route?
   $scope.addnewroute = false;
+
+  $scope.showMap = true;
+
   // button text
   $scope.msg = "Add new route!";
   $scope.msgChange = function () {
@@ -79,9 +82,12 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
       zoom: 18,
       center: new google.maps.LatLng(37.783724, -122.408978)
     };
-    // Create the map with the mapOptions object
-    GoogleMaps.renderNewMap(mapOptions, googleFormattedObject);
-    console.log(savedRoute.googleRouteObj);
+
+    $scope.showMap = true;
+
+    // Create the map with the mapOptions object and render
+    GoogleMaps.resetMap();
+    GoogleMaps.renderNewMap(googleFormattedObject);
   };
 
   // =================================
