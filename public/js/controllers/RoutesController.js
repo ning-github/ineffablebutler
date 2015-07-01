@@ -75,7 +75,19 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
       // the user has selected the departure and is now selecting the return route
     } else if (!$scope.model.going && $scope.model.returning) {
       $scope.model.route.route = [busNumber, stopName, duration, arrivalTimes];
+
+      // flip to and from to for saving return route
+      var temp = $scope.model.route.from;
+      $scope.model.route.from = $scope.model.route.to;
+      $scope.model.route.to = temp;
+
+      // add return route
       User.addRoute($scope.model.route);
+
+      // reset to and from back to original state
+      $scope.model.route.from = User.trip.from;
+      $scope.model.route.to = User.trip.to;
+
       // reset variables so that the user can select 
       // the departure route for the next route entered on home.html
       $scope.model.returning = false;
