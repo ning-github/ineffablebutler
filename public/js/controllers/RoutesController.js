@@ -28,6 +28,13 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
    ** FUNCTIONS **
    ***************/
 
+  $scope.model.showRoute = function (routeIndex) {
+    if (routeIndex !== GoogleMaps.directionsDisplay.routeIndex) {
+      GoogleMaps.directionsDisplay.setRouteIndex(routeIndex);
+    }
+  };
+
+
   // Handles a route selection (click event) on routes.html
   // Will save the departure/return route for the user
   // Redirects to home.html

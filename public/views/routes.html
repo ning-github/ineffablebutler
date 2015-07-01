@@ -14,7 +14,7 @@
       </md-card-content>
     </md-card>
     <h3>{{ model.routeHeading }}</h3>
-<md-card class="route-option" ng-repeat="route in model.routeOptions track by $index" ng-click="model.selectRoute(route)">
+<md-card class="route-option" ng-repeat="route in model.routeOptions track by $index" ng-click="model.selectRoute(route)" ng-mouseover="model.showRoute($index)">
       <md-card-content>
         <div ng-repeat="lineInfo in route.lines" class="bus-number">{{ lineInfo[0] }}</div>
         <div class="duration">{{ route.duration }}</div>
