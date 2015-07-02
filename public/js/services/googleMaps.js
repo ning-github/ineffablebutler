@@ -42,7 +42,7 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
 
       // resets map
       googleMaps.resetMap();
-
+      
       // Make the call to get the route options from Google Maps API 
       directions.route(directionsRequest, function (results, status) {
         console.log('SEARCH RESULTS FROM GOOGLE IN GOOGLEMAPS FACTORY: ', results);

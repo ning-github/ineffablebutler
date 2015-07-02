@@ -2,9 +2,6 @@ muniButlerApp.factory('User', function (Auth) {
   var user = {};
 
   // user.routes = [];
-
-
-
   user.routes = {};
   var index = 0;
   // user.trip is the current route the user is creating

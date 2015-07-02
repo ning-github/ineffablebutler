@@ -104,3 +104,35 @@ muniButlerApp.controller('HomeController', function ($scope, $location, User, Au
   }
 
 });
+
+// .directive('change-color', function(){
+//   return {
+//     restrict: 'E',
+//     scope: {
+//       data: '='
+//     },
+//     link: function(scope, elem, attrs){
+//       a = d3.select(elem[0]);
+//       scope.$watch('data', function(){
+//         updateGraph();
+//       });
+
+//       function updateGraph() {
+//           var green = "#00ff00";
+//           var yellow = "#ffff00";
+//           var red = "#ff0000";
+
+//           var textFromNode = document.getElementsByClassName('duration');
+//           var minutes = +textFromNode[0].textContent.split(' ')[0];
+
+//           var colorScale = d3.scale.linear()
+//             .domain([0, 20, 40])
+//             .range([green, yellow, red]);
+
+//           a.selectAll('.duration')
+//             .style('color', colorScale(minutes));
+//       }
+//     }
+//   }
+// });
+
