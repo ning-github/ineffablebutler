@@ -36,20 +36,22 @@ var muniButlerApp = angular.module('muniButler', ['ngMap',
         var yellow = "#ffff00";
         var red = "#ff0000";
 
-        var textFromNode = document.getElementsByClassName('duration');
-        var minutes = +textFromNode[0].textContent.split(' ')[0];
 
-        if (scope.route.duration){
-          var minutes = (scope.route.duration).split(' ')[0];
-        }
-        console.log(minutes);
+        //unique $index for each repeat
 
         var colorScale = d3.scale.linear()
           .domain([0, 20, 40])
           .range([green, yellow, red]);
 
         d3.selectAll('.duration')
-          .style('color', colorScale(minutes)); 
+          .each(function(d, i){
+
+            var minutes = this.textContent.split(' ')[0];
+            console.log('SCOPE: ', scope);
+            d3.select(this)
+              .style('color', colorScale(minutes));
+          });
+          // .style('color', colorScale(minutes)); 
         
       });  
     }}
