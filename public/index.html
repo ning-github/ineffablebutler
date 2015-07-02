@@ -13,6 +13,7 @@
   <script src='https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDpTlyStzFAMtoV42eAZj6jDU_xKpUpbs4'></script>
   <!-- build:js dist/lib.js -->
   <script src="lib/angular.min.js"></script>
+  <script src="lib/angular-ui-router.min.js"></script>
   <script src="lib/angular-route.min.js"></script>
   <script src="lib/angular-resource.min.js"></script>
   <script src="lib/angular-aria.min.js"></script>
@@ -41,14 +42,14 @@
         Log Out
       </md-button>
       <!-- button for each log in option -->
-      <md-button class="md-raised md-primary btn login {{ option.name.toLowerCase() }}" ng-repeat='option in options' ng-href="{{ option.url }}">
+      <md-button class="md-raised md-primary btn login {{ option.name.toLowerCase() }}" ng-repeat='option in options' ui-sref="{{ option.url }}">
         Sign in with {{ option.name }}
       </md-button>
     </div>
     <img src="img/munibutler-logo.svg" alt="munibutler logo" class="logo"/>
     <h1 class="logo-name">MuniButler</h1>
     <p class="md-body-2">Fast, reliable MUNI times for your commute to work and home.</p>
-	  <div ng-view>
+	  <div ui-view>
 	  </div>
 </body>
 
