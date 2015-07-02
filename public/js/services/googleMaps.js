@@ -45,7 +45,7 @@ muniButlerApp.factory('GoogleMaps', function ($q) {
 
       // Make the call to get the route options from Google Maps API 
       directions.route(directionsRequest, function (results, status) {
-        console.log('THE RESULTS ARE HERE: ', results);
+        console.log('SEARCH RESULTS FROM GOOGLE IN GOOGLEMAPS FACTORY: ', results);
         if (status !== "OK") {
           throw status;
         }

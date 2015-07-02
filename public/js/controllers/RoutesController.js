@@ -39,14 +39,14 @@ muniButlerApp.controller('RoutesController', function ($scope, $location, $timeo
   // Will save the departure/return route for the user
   // Redirects to home.html
   $scope.model.selectRoute = function (route) {
-    console.log('THIS IS THE ROUTE', route);
+    console.log('SELECTED ROUTE IN ROUTES CONTROLLER:', route);
 
     // var busNumber = route.lines[0][0];
     var busNumber = [];
 
     for (var i = 0; i < route.lines.length; i++) {
       busNumber.push(route.lines[i]);
-    };
+    }
 
     var stopName = route.lines[0][1];
     var duration = route.duration;
