@@ -37,9 +37,9 @@
           <div class="bus-number" ng-repeat = "busNumber in route.route[0]">{{ busNumber[0] }}</div>
           <div class="bus-destination">{{ route.to.split(',')[0] }}</div>
           <!-- TODO: duration. style with different color depending on how long -->
-          <!-- <div class="duration">{{ route.route[2] }}</div>  -->
           <change-color></change-color>
-          <change-color class="duration">{{ route.route[2] }}</change-color> 
+          <div class="duration">{{ route.route[2] }}</div> 
+          <!-- <change-color class="duration">{{ route.route[2] }}</change-color>  -->
           <div class="arrival-times" ng-show="route.route[3].length > 0">Arriving in
             <div class="time" ng-repeat="time in route.route[3]">{{ time }}</div> minutes</div>
           <div class="arrival-times no-times" ng-show="route.route[3].length === 0">No times available</div>

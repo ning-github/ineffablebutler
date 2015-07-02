@@ -29,6 +29,7 @@ var muniButlerApp = angular.module('muniButler', ['ngMap',
 .directive('changeColor', ['d3Service', function(d3Service) {
   return {
     restrict: 'E',
+
     link: function(scope, element, attrs) {
       d3Service.d3().then(function(d3) {
         var green = "#00ff00";
@@ -37,6 +38,11 @@ var muniButlerApp = angular.module('muniButler', ['ngMap',
 
         var textFromNode = document.getElementsByClassName('duration');
         var minutes = +textFromNode[0].textContent.split(' ')[0];
+
+        if (scope.route.duration){
+          var minutes = (scope.route.duration).split(' ')[0];
+        }
+        console.log(minutes);
 
         var colorScale = d3.scale.linear()
           .domain([0, 20, 40])
